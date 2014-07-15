@@ -17,7 +17,7 @@ namespace LiveSplit.UI.Components
 
         public string Description
         {
-            get { return ""; }
+            get { return "Shows the current run title, run category, and game icon."; }
         }
 
         public ComponentCategory Category
