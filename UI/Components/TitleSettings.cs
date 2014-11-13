@@ -47,9 +47,9 @@ namespace LiveSplit.UI.Components
             OverrideTitleFont = false;
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
-            BackgroundColor = Color.Transparent;
-            BackgroundColor2 = Color.Transparent;
-            BackgroundGradient = GradientType.Plain;
+            BackgroundColor = Color.FromArgb(255, 42, 42, 42);
+            BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
+            BackgroundGradient = GradientType.Vertical;
 
             chkAttemptCount.DataBindings.Add("Checked", this, "ShowAttemptCount", false, DataSourceUpdateMode.OnPropertyChanged);
             chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -128,9 +128,9 @@ namespace LiveSplit.UI.Components
             {
                 TitleColor = Color.FromArgb(255, 255, 255, 255);
                 OverrideTitleColor = false;
-                BackgroundColor = Color.Transparent;
-                BackgroundColor2 = Color.Transparent;
-                BackgroundGradient = GradientType.Plain;
+                BackgroundColor = Color.FromArgb(42, 42, 42, 255);
+                BackgroundColor2 = Color.FromArgb(19, 19, 19, 255);
+                BackgroundGradient = GradientType.Vertical;
                 DisplayGameIcon = true;
             }
         }
