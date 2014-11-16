@@ -1,4 +1,5 @@
-﻿using LiveSplit.UI.Components;
+﻿using LiveSplit.Model;
+using LiveSplit.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,6 +20,9 @@ namespace LiveSplit.UI.Components
         public GraphicsCache Cache { get; set; }
         protected int FrameCount { get; set; }
         protected Image OldImage { get; set; }
+        protected int RunHistoryCount { get; set; }
+        protected int FinishedRunsCount { get; set; }
+        protected IRun PreviousRun { get; set; }
 
         public float MinimumWidth
         {
@@ -27,7 +31,7 @@ namespace LiveSplit.UI.Components
 
         public float HorizontalWidth
         {
-            get { return Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth + (Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0)) + GameNameLabel.X + 5; }
+            get { return Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth + (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)) + GameNameLabel.X + 5; }
         }
 
         public IDictionary<string, Action> ContextMenuControls
@@ -124,9 +128,12 @@ namespace LiveSplit.UI.Components
                 GameNameLabel.HorizontalAlignment = showGameIcon || mode == LayoutMode.Horizontal ? StringAlignment.Near : StringAlignment.Center;
                 GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.CategoryName) ?
                 StringAlignment.Center : StringAlignment.Near;
-                GameNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowAttemptCount && String.IsNullOrEmpty(state.Run.CategoryName) ? AttemptCountLabel.ActualWidth : 0)));
+                GameNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowCount && String.IsNullOrEmpty(state.Run.CategoryName) 
+                    ? AttemptCountLabel.ActualWidth : 0)));
                 GameNameLabel.Y = 0;
-                GameNameLabel.Width = (showGameIcon ? (width - height - 13) : (width - 10 - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0))) - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0);
+                GameNameLabel.Width = (showGameIcon ? (width - height - 13) 
+                    : (width - 10 - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0))) 
+                    - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0);
                 GameNameLabel.Height = height;
                 GameNameLabel.Font = TitleFont;
                 GameNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
@@ -134,7 +141,7 @@ namespace LiveSplit.UI.Components
                 GameNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
                 GameNameLabel.Draw(g);
 
-                if (Settings.ShowAttemptCount)
+                if (Settings.ShowCount)
                 {
                     AttemptCountLabel.HorizontalAlignment = StringAlignment.Far;
                     AttemptCountLabel.VerticalAlignment = StringAlignment.Far;
@@ -152,9 +159,9 @@ namespace LiveSplit.UI.Components
                 CategoryNameLabel.HorizontalAlignment = (showGameIcon || mode == LayoutMode.Horizontal) ? StringAlignment.Near : StringAlignment.Center;
                 CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.GameName) ?
                 StringAlignment.Center : StringAlignment.Far;
-                CategoryNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0)));
+                CategoryNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)));
                 CategoryNameLabel.Y = 0;
-                CategoryNameLabel.Width = (showGameIcon ? (width - height - 13) : (width - 10 - (mode == LayoutMode.Vertical && Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0))) - (Settings.ShowAttemptCount ? AttemptCountLabel.ActualWidth : 0);
+                CategoryNameLabel.Width = (showGameIcon ? (width - height - 13) : (width - 10 - (mode == LayoutMode.Vertical && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0))) - (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0);
                 CategoryNameLabel.Font = TitleFont;
                 CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
                 CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
@@ -201,9 +208,19 @@ namespace LiveSplit.UI.Components
         public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
             GameNameLabel.Text = state.Run.GameName;
+            if (PreviousRun != state.Run || RunHistoryCount != state.Run.RunHistory.Count)
+            {
+                RunHistoryCount = state.Run.RunHistory.Count;
+                PreviousRun = state.Run;
+                FinishedRunsCount = state.Run.RunHistory.Where(x => x.Time.RealTime != null).Count();
+            }
 
-            if (Settings.ShowAttemptCount)
+            if (Settings.ShowAttemptCount && Settings.ShowFinishedRunsCount)
+                AttemptCountLabel.Text = String.Format("{0}/{1}", FinishedRunsCount, state.Run.AttemptCount);
+            else if (Settings.ShowAttemptCount)
                 AttemptCountLabel.Text = state.Run.AttemptCount.ToString();
+            else if (Settings.ShowFinishedRunsCount)
+                AttemptCountLabel.Text = FinishedRunsCount.ToString();
 
             CategoryNameLabel.Text = state.Run.CategoryName;
 

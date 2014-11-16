@@ -19,6 +19,8 @@ namespace LiveSplit.UI.Components
     public partial class TitleSettings : UserControl
     {
         public bool ShowAttemptCount { get; set; }
+        public bool ShowFinishedRunsCount { get; set; }
+        public bool ShowCount { get { return ShowAttemptCount || ShowFinishedRunsCount; } }
         public bool DisplayGameIcon { get; set; }
 
         public Color TitleColor { get; set; }
@@ -42,6 +44,7 @@ namespace LiveSplit.UI.Components
         {
             InitializeComponent();
             ShowAttemptCount = true;
+            ShowFinishedRunsCount = false;
             DisplayGameIcon = true;
             TitleFont = new Font("Segoe UI", 13, FontStyle.Regular, GraphicsUnit.Pixel);
             OverrideTitleFont = false;
@@ -52,6 +55,7 @@ namespace LiveSplit.UI.Components
             BackgroundGradient = GradientType.Vertical;
 
             chkAttemptCount.DataBindings.Add("Checked", this, "ShowAttemptCount", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkFinishedRuns.DataBindings.Add("Checked", this, "ShowFinishedRunsCount", false, DataSourceUpdateMode.OnPropertyChanged);
             chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
             lblFont.DataBindings.Add("Text", this, "TitleFontString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkColor.DataBindings.Add("Checked", this, "OverrideTitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -133,13 +137,22 @@ namespace LiveSplit.UI.Components
                 BackgroundGradient = GradientType.Vertical;
                 DisplayGameIcon = true;
             }
+            if (version >= new Version(1, 5))
+            {
+                ShowFinishedRunsCount = Boolean.Parse(element["ShowFinishedRunsCount"].InnerText);
+            }
+            else
+            {
+                ShowFinishedRunsCount = false;
+            }
         }
 
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(ToElement(document, "Version", "1.3"));
+            parent.AppendChild(ToElement(document, "Version", "1.5"));
             parent.AppendChild(ToElement(document, "ShowAttemptCount", ShowAttemptCount));
+            parent.AppendChild(ToElement(document, "ShowFinishedRunsCount", ShowFinishedRunsCount));
             parent.AppendChild(ToElement(document, "OverrideTitleFont", OverrideTitleFont));
             parent.AppendChild(ToElement(document, "OverrideTitleColor", OverrideTitleColor));
             parent.AppendChild(CreateFontElement(document, "TitleFont", TitleFont));
