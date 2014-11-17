@@ -199,12 +199,6 @@ namespace LiveSplit.UI.Components
             Settings.SetSettings(settings);
         }
 
-
-        public void RenameComparison(string oldName, string newName)
-        {
-        }
-
-
         public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
             GameNameLabel.Text = state.Run.GameName;
