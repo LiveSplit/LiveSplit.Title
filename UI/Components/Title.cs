@@ -125,15 +125,41 @@ namespace LiveSplit.UI.Components
                         drawHeight);
                 }
 
-                GameNameLabel.HorizontalAlignment = showGameIcon || mode == LayoutMode.Horizontal ? StringAlignment.Near : StringAlignment.Center;
-                GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.CategoryName) ?
-                StringAlignment.Center : StringAlignment.Near;
-                GameNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowCount && String.IsNullOrEmpty(state.Run.CategoryName) 
-                    ? AttemptCountLabel.ActualWidth : 0)));
+                float startPadding = 5;
+                float titleEndPadding = 5;
+                float categoryEndPadding = 5;
+                if (showGameIcon)
+                {
+                    startPadding += height + 3;
+                }
+                if (mode == LayoutMode.Vertical && Settings.ShowCount)
+                {
+                    if (String.IsNullOrEmpty(state.Run.CategoryName))
+                    {
+                        titleEndPadding += AttemptCountLabel.ActualWidth;
+                    }
+                    else
+                    {
+                        categoryEndPadding += AttemptCountLabel.ActualWidth;
+                    }
+                }
+
+                if (Settings.CenterTitle)
+                {
+                    float stringWidth = g.MeasureString(GameNameLabel.Text, TitleFont).Width;
+                    PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, titleEndPadding);
+                    GameNameLabel.X = positionAndWidth.position;
+                    GameNameLabel.Width = positionAndWidth.width;
+                }
+                else
+                {
+                    GameNameLabel.X = startPadding;
+                    GameNameLabel.Width = width - startPadding - titleEndPadding;
+                }
+
+                GameNameLabel.HorizontalAlignment = StringAlignment.Near;
+                GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.CategoryName) ? StringAlignment.Center : StringAlignment.Near;
                 GameNameLabel.Y = 0;
-                GameNameLabel.Width = (showGameIcon ? (width - height - 13) 
-                    : (width - 10 - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0))) 
-                    - (mode == LayoutMode.Vertical && String.IsNullOrEmpty(state.Run.CategoryName) && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0);
                 GameNameLabel.Height = height;
                 GameNameLabel.Font = TitleFont;
                 GameNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
@@ -156,12 +182,21 @@ namespace LiveSplit.UI.Components
                     AttemptCountLabel.Draw(g);
                 }
 
-                CategoryNameLabel.HorizontalAlignment = (showGameIcon || mode == LayoutMode.Horizontal) ? StringAlignment.Near : StringAlignment.Center;
-                CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.GameName) ?
-                StringAlignment.Center : StringAlignment.Far;
-                CategoryNameLabel.X = (showGameIcon ? (height + 8) : (5 + (mode == LayoutMode.Vertical && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)));
+                if (Settings.CenterTitle)
+                {
+                    float stringWidth = g.MeasureString(CategoryNameLabel.Text, TitleFont).Width;
+                    PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
+                    CategoryNameLabel.X = positionAndWidth.position;
+                    CategoryNameLabel.Width = positionAndWidth.width;
+                }
+                else
+                {
+                    CategoryNameLabel.X = startPadding;
+                    CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
+                }
                 CategoryNameLabel.Y = 0;
-                CategoryNameLabel.Width = (showGameIcon ? (width - height - 13) : (width - 10 - (mode == LayoutMode.Vertical && Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0))) - (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0);
+                CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
+                CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.GameName) ? StringAlignment.Center : StringAlignment.Far;
                 CategoryNameLabel.Font = TitleFont;
                 CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
                 CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
@@ -169,6 +204,44 @@ namespace LiveSplit.UI.Components
                 CategoryNameLabel.Height = height;
                 CategoryNameLabel.Draw(g);
         }
+
+        /*
+         * Returns coordinate and width of the string element so that the text is centered in the total width
+         * while not overlapping into the start or ending padding.
+         */
+        private PositionAndWidth calculateCenteredPositionAndWidth(float totalWidth, float stringWidth, float startPadding, float endPadding)
+        {
+            float position, width;
+            if (startPadding + stringWidth + endPadding > totalWidth)
+            {
+                // We cant fit no matter what we do, so start the string after the start padding 
+                position = startPadding;
+            }
+            else
+            {
+                // Try to center, but push the string left or right if it overlaps the padding
+                position = (totalWidth - stringWidth) / 2;
+                position = Math.Max(position, startPadding);
+                if (position + stringWidth > totalWidth - endPadding)
+                {
+                    position = totalWidth - endPadding - stringWidth;
+                }
+            }
+            width = totalWidth - endPadding - position;
+            return new PositionAndWidth(position, width);
+        }
+
+        private class PositionAndWidth
+        {
+            public float position { get; set; }
+            public float width { get; set; }
+            public PositionAndWidth(float position, float width)
+            {
+                this.position = position;
+                this.width = width;
+            }
+        }
+
         public void DrawHorizontal(Graphics g, Model.LiveSplitState state, float height, Region clipRegion)
         {
             DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal);
@@ -240,5 +313,6 @@ namespace LiveSplit.UI.Components
         public void Dispose()
         {
         }
+
     }
 }
