@@ -320,7 +320,7 @@
             this.chkCenter.Name = "chkCenter";
             this.chkCenter.Size = new System.Drawing.Size(243, 17);
             this.chkCenter.TabIndex = 42;
-            this.chkCenter.Text = "Center Title Text";
+            this.chkCenter.Text = "Always Center Text";
             this.chkCenter.UseVisualStyleBackColor = true;
             // 
             // TitleSettings

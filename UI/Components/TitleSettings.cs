@@ -130,7 +130,7 @@ namespace LiveSplit.UI.Components
             GradientString = ParseString(element["BackgroundGradient"], GradientType.Vertical.ToString());
             DisplayGameIcon = ParseBool(element["DisplayGameIcon"], true);
             ShowFinishedRunsCount = ParseBool(element["ShowFinishedRunsCount"], false);
-            CenterTitle = ParseBool(element["CenterTitle"], !DisplayGameIcon);
+            CenterTitle = ParseBool(element["CenterTitle"], false);
         }
 
         public XmlNode GetSettings(XmlDocument document)

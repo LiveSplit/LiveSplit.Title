@@ -144,7 +144,7 @@ namespace LiveSplit.UI.Components
                     }
                 }
 
-                if (Settings.CenterTitle)
+                if (Settings.CenterTitle || !showGameIcon)
                 {
                     float stringWidth = g.MeasureString(GameNameLabel.Text, TitleFont).Width;
                     PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, titleEndPadding);
@@ -182,7 +182,7 @@ namespace LiveSplit.UI.Components
                     AttemptCountLabel.Draw(g);
                 }
 
-                if (Settings.CenterTitle)
+                if (Settings.CenterTitle || !showGameIcon)
                 {
                     float stringWidth = g.MeasureString(CategoryNameLabel.Text, TitleFont).Width;
                     PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
