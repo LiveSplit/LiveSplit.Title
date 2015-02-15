@@ -40,13 +40,14 @@
             this.btnFont = new System.Windows.Forms.Button();
             this.chkFont = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.chkAttemptCount = new System.Windows.Forms.CheckBox();
             this.cmbGradientType = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnColor1 = new System.Windows.Forms.Button();
             this.btnColor2 = new System.Windows.Forms.Button();
             this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
+            this.chkAttemptCount = new System.Windows.Forms.CheckBox();
             this.chkFinishedRuns = new System.Windows.Forms.CheckBox();
+            this.chkCenter = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -70,6 +71,7 @@
             this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.chkAttemptCount, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkFinishedRuns, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 3, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -222,18 +224,6 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Font:";
             // 
-            // chkAttemptCount
-            // 
-            this.chkAttemptCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkAttemptCount.AutoSize = true;
-            this.chkAttemptCount.Location = new System.Drawing.Point(216, 199);
-            this.chkAttemptCount.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkAttemptCount.Name = "chkAttemptCount";
-            this.chkAttemptCount.Size = new System.Drawing.Size(243, 17);
-            this.chkAttemptCount.TabIndex = 5;
-            this.chkAttemptCount.Text = "Show Attempt Count";
-            this.chkAttemptCount.UseVisualStyleBackColor = true;
-            // 
             // cmbGradientType
             // 
             this.cmbGradientType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -296,6 +286,18 @@
             this.chkDisplayGameIcon.Text = "Display Game Icon";
             this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
             // 
+            // chkAttemptCount
+            // 
+            this.chkAttemptCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkAttemptCount.AutoSize = true;
+            this.chkAttemptCount.Location = new System.Drawing.Point(216, 199);
+            this.chkAttemptCount.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkAttemptCount.Name = "chkAttemptCount";
+            this.chkAttemptCount.Size = new System.Drawing.Size(243, 17);
+            this.chkAttemptCount.TabIndex = 5;
+            this.chkAttemptCount.Text = "Show Attempt Count";
+            this.chkAttemptCount.UseVisualStyleBackColor = true;
+            // 
             // chkFinishedRuns
             // 
             this.chkFinishedRuns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -308,6 +310,18 @@
             this.chkFinishedRuns.TabIndex = 41;
             this.chkFinishedRuns.Text = "Show Finished Runs Count";
             this.chkFinishedRuns.UseVisualStyleBackColor = true;
+            // 
+            // chkCenter
+            // 
+            this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkCenter.AutoSize = true;
+            this.chkCenter.Location = new System.Drawing.Point(216, 228);
+            this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkCenter.Name = "chkCenter";
+            this.chkCenter.Size = new System.Drawing.Size(243, 17);
+            this.chkCenter.TabIndex = 42;
+            this.chkCenter.Text = "Center Title Text";
+            this.chkCenter.UseVisualStyleBackColor = true;
             // 
             // TitleSettings
             // 
@@ -350,5 +364,6 @@
         private System.Windows.Forms.Button btnColor2;
         private System.Windows.Forms.CheckBox chkDisplayGameIcon;
         private System.Windows.Forms.CheckBox chkFinishedRuns;
+        private System.Windows.Forms.CheckBox chkCenter;
     }
 }

@@ -25,6 +25,7 @@ namespace LiveSplit.UI.Components
 
         public Color TitleColor { get; set; }
         public bool OverrideTitleColor { get; set; }
+        public bool CenterTitle { get; set; }
 
         public string TitleFontString { get { return String.Format("{0} {1}", TitleFont.FontFamily.Name, TitleFont.Style); } }
 
@@ -50,6 +51,7 @@ namespace LiveSplit.UI.Components
             OverrideTitleFont = false;
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
+            CenterTitle = true;
             BackgroundColor = Color.FromArgb(255, 42, 42, 42);
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
             BackgroundGradient = GradientType.Vertical;
@@ -59,6 +61,7 @@ namespace LiveSplit.UI.Components
             chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
             lblFont.DataBindings.Add("Text", this, "TitleFontString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkColor.DataBindings.Add("Checked", this, "OverrideTitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor.DataBindings.Add("BackColor", this, "TitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -119,32 +122,15 @@ namespace LiveSplit.UI.Components
                 TitleFont = new Font("Segoe UI", 13, FontStyle.Regular, GraphicsUnit.Pixel);
                 OverrideTitleFont = false;
             }
-            if (version >= new Version(1, 3))
-            {
-                TitleColor = ParseColor(element["TitleColor"]);
-                OverrideTitleColor = Boolean.Parse(element["OverrideTitleColor"].InnerText);
-                BackgroundColor = ParseColor(element["BackgroundColor"]);
-                BackgroundColor2 = ParseColor(element["BackgroundColor2"]);
-                GradientString = element["BackgroundGradient"].InnerText;
-                DisplayGameIcon = Boolean.Parse(element["DisplayGameIcon"].InnerText);
-            }
-            else
-            {
-                TitleColor = Color.FromArgb(255, 255, 255, 255);
-                OverrideTitleColor = false;
-                BackgroundColor = Color.FromArgb(42, 42, 42, 255);
-                BackgroundColor2 = Color.FromArgb(19, 19, 19, 255);
-                BackgroundGradient = GradientType.Vertical;
-                DisplayGameIcon = true;
-            }
-            if (version >= new Version(1, 5))
-            {
-                ShowFinishedRunsCount = Boolean.Parse(element["ShowFinishedRunsCount"].InnerText);
-            }
-            else
-            {
-                ShowFinishedRunsCount = false;
-            }
+
+            TitleColor = ParseColor(element["TitleColor"], Color.FromArgb(255, 255, 255, 255));
+            OverrideTitleColor = ParseBool(element["OverrideTitleColor"], false);
+            BackgroundColor = ParseColor(element["BackgroundColor"], Color.FromArgb(42, 42, 42, 255));
+            BackgroundColor2 = ParseColor(element["BackgroundColor2"], Color.FromArgb(19, 19, 19, 255));
+            GradientString = ParseString(element["BackgroundGradient"], GradientType.Vertical.ToString());
+            DisplayGameIcon = ParseBool(element["DisplayGameIcon"], true);
+            ShowFinishedRunsCount = ParseBool(element["ShowFinishedRunsCount"], false);
+            CenterTitle = ParseBool(element["CenterTitle"], !DisplayGameIcon);
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -156,6 +142,7 @@ namespace LiveSplit.UI.Components
             parent.AppendChild(ToElement(document, "OverrideTitleFont", OverrideTitleFont));
             parent.AppendChild(ToElement(document, "OverrideTitleColor", OverrideTitleColor));
             parent.AppendChild(CreateFontElement(document, "TitleFont", TitleFont));
+            parent.AppendChild(ToElement(document, "CenterTitle", CenterTitle));
             parent.AppendChild(ToElement(document, TitleColor, "TitleColor"));
             parent.AppendChild(ToElement(document, BackgroundColor, "BackgroundColor"));
             parent.AppendChild(ToElement(document, BackgroundColor2, "BackgroundColor2"));
@@ -227,9 +214,19 @@ namespace LiveSplit.UI.Components
             return element;
         }
 
-        private Color ParseColor(XmlElement colorElement)
+        private Color ParseColor(XmlElement colorElement, Color defaultColor)
         {
-            return Color.FromArgb(Int32.Parse(colorElement.InnerText, NumberStyles.HexNumber));
+            return colorElement != null ? Color.FromArgb(Int32.Parse(colorElement.InnerText, NumberStyles.HexNumber)) : defaultColor;
+        }
+
+        private bool ParseBool(XmlElement boolElement, bool defaultBool)
+        {
+            return boolElement != null ? Boolean.Parse(boolElement.InnerText) : defaultBool;
+        }
+
+        private string ParseString(XmlElement stringElement, String defaultString)
+        {
+            return stringElement != null ? stringElement.InnerText : defaultString;
         }
 
         private XmlElement ToElement(XmlDocument document, Color color, string name)
