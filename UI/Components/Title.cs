@@ -274,7 +274,11 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            GameNameLabel.Text = state.Run.GameName;
+            if (GameNameLabel.Text != state.Run.GameName)
+            {
+                GameNameLabel.Text = state.Run.GameName;
+                GameNameLabel.AlternateText = state.Run.GameName.GetShortNames().ToList();
+            }
             if (PreviousRun != state.Run || RunHistoryCount != state.Run.AttemptHistory.Count)
             {
                 RunHistoryCount = state.Run.AttemptHistory.Count;
