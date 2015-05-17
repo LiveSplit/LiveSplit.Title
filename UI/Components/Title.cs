@@ -146,7 +146,8 @@ namespace LiveSplit.UI.Components
 
                 if (Settings.CenterTitle || !showGameIcon)
                 {
-                    float stringWidth = g.MeasureString(GameNameLabel.Text, TitleFont).Width;
+                    GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
+                    float stringWidth = GameNameLabel.ActualWidth;
                     PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, titleEndPadding);
                     GameNameLabel.X = positionAndWidth.position;
                     GameNameLabel.Width = positionAndWidth.width;
