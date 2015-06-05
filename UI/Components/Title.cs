@@ -278,7 +278,7 @@ namespace LiveSplit.UI.Components
             if (GameNameLabel.Text != state.Run.GameName)
             {
                 GameNameLabel.Text = state.Run.GameName;
-                GameNameLabel.AlternateText = state.Run.GameName.GetShortNames().ToList();
+                GameNameLabel.AlternateText = state.Run.GameName.GetAbbreviations().ToList();
             }
             if (PreviousRun != state.Run || RunHistoryCount != state.Run.AttemptHistory.Count)
             {
