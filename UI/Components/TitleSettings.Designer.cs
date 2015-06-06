@@ -282,7 +282,7 @@
             this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
             this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
-            this.chkDisplayGameIcon.TabIndex = 40;
+            this.chkDisplayGameIcon.TabIndex = 7;
             this.chkDisplayGameIcon.Text = "Display Game Icon";
             this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
             // 
@@ -294,7 +294,7 @@
             this.chkAttemptCount.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkAttemptCount.Name = "chkAttemptCount";
             this.chkAttemptCount.Size = new System.Drawing.Size(243, 17);
-            this.chkAttemptCount.TabIndex = 5;
+            this.chkAttemptCount.TabIndex = 6;
             this.chkAttemptCount.Text = "Show Attempt Count";
             this.chkAttemptCount.UseVisualStyleBackColor = true;
             // 
@@ -307,7 +307,7 @@
             this.chkFinishedRuns.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkFinishedRuns.Name = "chkFinishedRuns";
             this.chkFinishedRuns.Size = new System.Drawing.Size(199, 17);
-            this.chkFinishedRuns.TabIndex = 41;
+            this.chkFinishedRuns.TabIndex = 5;
             this.chkFinishedRuns.Text = "Show Finished Runs Count";
             this.chkFinishedRuns.UseVisualStyleBackColor = true;
             // 
@@ -319,7 +319,7 @@
             this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkCenter.Name = "chkCenter";
             this.chkCenter.Size = new System.Drawing.Size(243, 17);
-            this.chkCenter.TabIndex = 42;
+            this.chkCenter.TabIndex = 8;
             this.chkCenter.Text = "Always Center Text";
             this.chkCenter.UseVisualStyleBackColor = true;
             // 
