@@ -103,19 +103,15 @@ namespace LiveSplit.UI.Components
         public void SetSettings(XmlNode node)
         {
             var element = (XmlElement)node;
-            Version version;
-            if (element["Version"] != null)
-                version = Version.Parse(element["Version"].InnerText);
-            else
-                version = new Version(1, 0, 0, 0);
-            ShowAttemptCount = Boolean.Parse(element["ShowAttemptCount"].InnerText);
+            Version version = SettingsHelper.ParseVersion(element["Version"]);
+
             if (version >= new Version(1, 2))
             {
-                TitleFont = GetFontFromElement(element["TitleFont"]);
+                TitleFont = SettingsHelper.GetFontFromElement(element["TitleFont"]);
                 if (version >= new Version(1, 3))
-                    OverrideTitleFont = Boolean.Parse(element["OverrideTitleFont"].InnerText);
+                    OverrideTitleFont = SettingsHelper.ParseBool(element["OverrideTitleFont"]);
                 else
-                    OverrideTitleFont = !Boolean.Parse(element["UseLayoutSettingsFont"].InnerText);
+                    OverrideTitleFont = !SettingsHelper.ParseBool(element["UseLayoutSettingsFont"]);
             }
             else
             {
@@ -123,117 +119,39 @@ namespace LiveSplit.UI.Components
                 OverrideTitleFont = false;
             }
 
-            TitleColor = ParseColor(element["TitleColor"], Color.FromArgb(255, 255, 255, 255));
-            OverrideTitleColor = ParseBool(element["OverrideTitleColor"], false);
-            BackgroundColor = ParseColor(element["BackgroundColor"], Color.FromArgb(42, 42, 42, 255));
-            BackgroundColor2 = ParseColor(element["BackgroundColor2"], Color.FromArgb(19, 19, 19, 255));
-            GradientString = ParseString(element["BackgroundGradient"], GradientType.Vertical.ToString());
-            DisplayGameIcon = ParseBool(element["DisplayGameIcon"], true);
-            ShowFinishedRunsCount = ParseBool(element["ShowFinishedRunsCount"], false);
-            CenterTitle = ParseBool(element["CenterTitle"], false);
+            ShowAttemptCount = SettingsHelper.ParseBool(element["ShowAttemptCount"]);
+            TitleColor = SettingsHelper.ParseColor(element["TitleColor"], Color.FromArgb(255, 255, 255, 255));
+            OverrideTitleColor = SettingsHelper.ParseBool(element["OverrideTitleColor"], false);
+            BackgroundColor = SettingsHelper.ParseColor(element["BackgroundColor"], Color.FromArgb(42, 42, 42, 255));
+            BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"], Color.FromArgb(19, 19, 19, 255));
+            GradientString = SettingsHelper.ParseString(element["BackgroundGradient"], GradientType.Vertical.ToString());
+            DisplayGameIcon = SettingsHelper.ParseBool(element["DisplayGameIcon"], true);
+            ShowFinishedRunsCount = SettingsHelper.ParseBool(element["ShowFinishedRunsCount"], false);
+            CenterTitle = SettingsHelper.ParseBool(element["CenterTitle"], false);
         }
 
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(ToElement(document, "Version", "1.5"));
-            parent.AppendChild(ToElement(document, "ShowAttemptCount", ShowAttemptCount));
-            parent.AppendChild(ToElement(document, "ShowFinishedRunsCount", ShowFinishedRunsCount));
-            parent.AppendChild(ToElement(document, "OverrideTitleFont", OverrideTitleFont));
-            parent.AppendChild(ToElement(document, "OverrideTitleColor", OverrideTitleColor));
-            parent.AppendChild(CreateFontElement(document, "TitleFont", TitleFont));
-            parent.AppendChild(ToElement(document, "CenterTitle", CenterTitle));
-            parent.AppendChild(ToElement(document, TitleColor, "TitleColor"));
-            parent.AppendChild(ToElement(document, BackgroundColor, "BackgroundColor"));
-            parent.AppendChild(ToElement(document, BackgroundColor2, "BackgroundColor2"));
-            parent.AppendChild(ToElement(document, "BackgroundGradient", BackgroundGradient));
-            parent.AppendChild(ToElement(document, "DisplayGameIcon", DisplayGameIcon));
+            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.5"));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowAttemptCount", ShowAttemptCount));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowFinishedRunsCount", ShowFinishedRunsCount));
+            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleFont", OverrideTitleFont));
+            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleColor", OverrideTitleColor));
+            parent.AppendChild(SettingsHelper.CreateFontElement(document, "TitleFont", TitleFont));
+            parent.AppendChild(SettingsHelper.ToElement(document, "CenterTitle", CenterTitle));
+            parent.AppendChild(SettingsHelper.ToElement(document, TitleColor, "TitleColor"));
+            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor, "BackgroundColor"));
+            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor2, "BackgroundColor2"));
+            parent.AppendChild(SettingsHelper.ToElement(document, "BackgroundGradient", BackgroundGradient));
+            parent.AppendChild(SettingsHelper.ToElement(document, "DisplayGameIcon", DisplayGameIcon));
             return parent;
-        }
-
-        private Font ChooseFont(Font previousFont, int minSize, int maxSize)
-        {
-            var dialog = new FontDialog();
-            dialog.Font = previousFont;
-            dialog.MinSize = minSize;
-            dialog.MaxSize = maxSize;
-            try
-            {
-                var result = dialog.ShowDialog(this);
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    return dialog.Font;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-
-                MessageBox.Show("This font is not supported.", "Font Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            return previousFont;
         }
 
         private void btnFont_Click(object sender, EventArgs e)
         {
-            TitleFont = ChooseFont(TitleFont, 7, 20);
+            TitleFont = SettingsHelper.ChooseFont(this, TitleFont, 7, 20);
             lblFont.Text = TitleFontString;
-        }
-
-        private Font GetFontFromElement(XmlElement element)
-        {
-            if (!element.IsEmpty)
-            {
-                var bf = new BinaryFormatter();
-
-                var base64String = element.InnerText;
-                var data = Convert.FromBase64String(base64String);
-                var ms = new MemoryStream(data);
-                return (Font)bf.Deserialize(ms);
-            }
-            return null;
-        }
-
-        private XmlElement CreateFontElement(XmlDocument document, String elementName, Font font)
-        {
-            var element = document.CreateElement(elementName);
-
-            if (font != null)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    var bf = new BinaryFormatter();
-
-                    bf.Serialize(ms, font);
-                    var data = ms.ToArray();
-                    var cdata = document.CreateCDataSection(Convert.ToBase64String(data));
-                    element.InnerXml = cdata.OuterXml;
-                }
-            }
-
-            return element;
-        }
-
-        private Color ParseColor(XmlElement colorElement, Color defaultColor)
-        {
-            return colorElement != null ? Color.FromArgb(Int32.Parse(colorElement.InnerText, NumberStyles.HexNumber)) : defaultColor;
-        }
-
-        private bool ParseBool(XmlElement boolElement, bool defaultBool)
-        {
-            return boolElement != null ? Boolean.Parse(boolElement.InnerText) : defaultBool;
-        }
-
-        private string ParseString(XmlElement stringElement, String defaultString)
-        {
-            return stringElement != null ? stringElement.InnerText : defaultString;
-        }
-
-        private XmlElement ToElement(XmlDocument document, Color color, string name)
-        {
-            var element = document.CreateElement(name);
-            element.InnerText = color.ToArgb().ToString("X8");
-            return element;
         }
 
         private void ColorButtonClick(object sender, EventArgs e)
@@ -244,13 +162,6 @@ namespace LiveSplit.UI.Components
             picker.SelectedColorChanged += (s, x) => button.BackColor = picker.SelectedColor;
             picker.ShowDialog(this);
             button.BackColor = picker.SelectedColor;
-        }
-
-        private XmlElement ToElement<T>(XmlDocument document, String name, T value)
-        {
-            var element = document.CreateElement(name);
-            element.InnerText = value.ToString();
-            return element;
         }
     }
 }
