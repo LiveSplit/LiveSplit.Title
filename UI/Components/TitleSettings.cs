@@ -66,14 +66,7 @@ namespace LiveSplit.UI.Components
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
             chkDisplayGameIcon.DataBindings.Add("Checked", this, "DisplayGameIcon", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            cmbGradientType.SelectedIndexChanged += cmbGradientType_SelectedIndexChanged;
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            chkFont.CheckedChanged += chkFont_CheckedChanged;
-            chkColor.CheckedChanged += chkColor_CheckedChanged;
-
-            this.Load += TitleSettings_Load;
         }
 
         void TitleSettings_Load(object sender, EventArgs e)

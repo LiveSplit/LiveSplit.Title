@@ -126,6 +126,7 @@
             this.chkColor.TabIndex = 0;
             this.chkColor.Text = "Override Layout Settings";
             this.chkColor.UseVisualStyleBackColor = true;
+            this.chkColor.CheckedChanged += new System.EventHandler(chkColor_CheckedChanged);
             // 
             // btnColor
             // 
@@ -213,6 +214,7 @@
             this.chkFont.TabIndex = 0;
             this.chkFont.Text = "Override Layout Settings";
             this.chkFont.UseVisualStyleBackColor = true;
+            this.chkFont.CheckedChanged += new System.EventHandler(chkFont_CheckedChanged);
             // 
             // label1
             // 
@@ -237,6 +239,7 @@
             this.cmbGradientType.Name = "cmbGradientType";
             this.cmbGradientType.Size = new System.Drawing.Size(247, 21);
             this.cmbGradientType.TabIndex = 2;
+            this.cmbGradientType.SelectedIndexChanged += new System.EventHandler(cmbGradientType_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -331,6 +334,7 @@
             this.Name = "TitleSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
             this.Size = new System.Drawing.Size(476, 266);
+            this.Load += new System.EventHandler(TitleSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
