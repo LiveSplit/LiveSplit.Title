@@ -21,11 +21,12 @@ namespace LiveSplit.UI.Components
         public bool ShowAttemptCount { get; set; }
         public bool ShowFinishedRunsCount { get; set; }
         public bool ShowCount { get { return ShowAttemptCount || ShowFinishedRunsCount; } }
+        public bool CenterTitle { get; set; }
+        public bool SingleLine { get; set; }
         public bool DisplayGameIcon { get; set; }
 
         public Color TitleColor { get; set; }
         public bool OverrideTitleColor { get; set; }
-        public bool CenterTitle { get; set; }
 
         public string TitleFontString { get { return String.Format("{0} {1}", TitleFont.FontFamily.Name, TitleFont.Style); } }
 
@@ -52,6 +53,7 @@ namespace LiveSplit.UI.Components
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
             CenterTitle = true;
+            SingleLine = false;
             BackgroundColor = Color.FromArgb(255, 42, 42, 42);
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
             BackgroundGradient = GradientType.Vertical;
@@ -62,6 +64,7 @@ namespace LiveSplit.UI.Components
             lblFont.DataBindings.Add("Text", this, "TitleFontString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkColor.DataBindings.Add("Checked", this, "OverrideTitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
             chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkSingleLine.DataBindings.Add("Checked", this, "SingleLine", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor.DataBindings.Add("BackColor", this, "TitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -121,6 +124,7 @@ namespace LiveSplit.UI.Components
             DisplayGameIcon = SettingsHelper.ParseBool(element["DisplayGameIcon"], true);
             ShowFinishedRunsCount = SettingsHelper.ParseBool(element["ShowFinishedRunsCount"], false);
             CenterTitle = SettingsHelper.ParseBool(element["CenterTitle"], false);
+            SingleLine = SettingsHelper.ParseBool(element["SingleLine"], false);
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -133,6 +137,7 @@ namespace LiveSplit.UI.Components
             parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleColor", OverrideTitleColor));
             parent.AppendChild(SettingsHelper.CreateFontElement(document, "TitleFont", TitleFont));
             parent.AppendChild(SettingsHelper.ToElement(document, "CenterTitle", CenterTitle));
+            parent.AppendChild(SettingsHelper.ToElement(document, "SingleLine", SingleLine));
             parent.AppendChild(SettingsHelper.ToElement(document, TitleColor, "TitleColor"));
             parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor, "BackgroundColor"));
             parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor2, "BackgroundColor2"));
