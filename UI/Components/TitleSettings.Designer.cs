@@ -46,9 +46,9 @@
             this.btnColor2 = new System.Windows.Forms.Button();
             this.chkAttemptCount = new System.Windows.Forms.CheckBox();
             this.chkFinishedRuns = new System.Windows.Forms.CheckBox();
-            this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
-            this.chkCenter = new System.Windows.Forms.CheckBox();
             this.chkSingleLine = new System.Windows.Forms.CheckBox();
+            this.chkCenter = new System.Windows.Forms.CheckBox();
+            this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -304,31 +304,6 @@
             this.chkFinishedRuns.Text = "Show Finished Runs Count";
             this.chkFinishedRuns.UseVisualStyleBackColor = true;
             // 
-            // chkDisplayGameIcon
-            // 
-            this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDisplayGameIcon.AutoSize = true;
-            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 228);
-            this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
-            this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
-            this.chkDisplayGameIcon.TabIndex = 7;
-            this.chkDisplayGameIcon.Text = "Display Game Icon";
-            this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
-            this.chkDisplayGameIcon.CheckedChanged += new System.EventHandler(this.chkDisplayGameIcon_CheckedChanged);
-            // 
-            // chkCenter
-            // 
-            this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkCenter.AutoSize = true;
-            this.chkCenter.Location = new System.Drawing.Point(216, 228);
-            this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkCenter.Name = "chkCenter";
-            this.chkCenter.Size = new System.Drawing.Size(243, 17);
-            this.chkCenter.TabIndex = 8;
-            this.chkCenter.Text = "Always Center Text";
-            this.chkCenter.UseVisualStyleBackColor = true;
-            // 
             // chkSingleLine
             // 
             this.chkSingleLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -341,6 +316,31 @@
             this.chkSingleLine.TabIndex = 40;
             this.chkSingleLine.Text = "Display Game and Category in Single Line";
             this.chkSingleLine.UseVisualStyleBackColor = true;
+            // 
+            // chkCenter
+            // 
+            this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkCenter.AutoSize = true;
+            this.chkCenter.Location = new System.Drawing.Point(216, 228);
+            this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkCenter.Name = "chkCenter";
+            this.chkCenter.Size = new System.Drawing.Size(243, 17);
+            this.chkCenter.TabIndex = 8;
+            this.chkCenter.Text = "Center Text";
+            this.chkCenter.UseVisualStyleBackColor = true;
+            // 
+            // chkDisplayGameIcon
+            // 
+            this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDisplayGameIcon.AutoSize = true;
+            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 228);
+            this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
+            this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
+            this.chkDisplayGameIcon.TabIndex = 7;
+            this.chkDisplayGameIcon.Text = "Display Game Icon";
+            this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
+            this.chkDisplayGameIcon.CheckedChanged += new System.EventHandler(this.chkDisplayGameIcon_CheckedChanged);
             // 
             // TitleSettings
             // 
