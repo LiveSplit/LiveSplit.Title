@@ -44,9 +44,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.btnColor1 = new System.Windows.Forms.Button();
             this.btnColor2 = new System.Windows.Forms.Button();
-            this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
             this.chkAttemptCount = new System.Windows.Forms.CheckBox();
             this.chkFinishedRuns = new System.Windows.Forms.CheckBox();
+            this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
             this.chkCenter = new System.Windows.Forms.CheckBox();
             this.chkSingleLine = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
@@ -71,9 +71,9 @@
             this.tableLayoutPanel1.Controls.Add(this.btnColor2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.chkAttemptCount, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkFinishedRuns, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -279,18 +279,6 @@
             this.btnColor2.UseVisualStyleBackColor = false;
             this.btnColor2.Click += new System.EventHandler(this.ColorButtonClick);
             // 
-            // chkDisplayGameIcon
-            // 
-            this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDisplayGameIcon.AutoSize = true;
-            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 257);
-            this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
-            this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
-            this.chkDisplayGameIcon.TabIndex = 7;
-            this.chkDisplayGameIcon.Text = "Display Game Icon";
-            this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
-            // 
             // chkAttemptCount
             // 
             this.chkAttemptCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -316,14 +304,27 @@
             this.chkFinishedRuns.Text = "Show Finished Runs Count";
             this.chkFinishedRuns.UseVisualStyleBackColor = true;
             // 
+            // chkDisplayGameIcon
+            // 
+            this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDisplayGameIcon.AutoSize = true;
+            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 228);
+            this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
+            this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
+            this.chkDisplayGameIcon.TabIndex = 7;
+            this.chkDisplayGameIcon.Text = "Display Game Icon";
+            this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
+            this.chkDisplayGameIcon.CheckedChanged += new System.EventHandler(this.chkDisplayGameIcon_CheckedChanged);
+            // 
             // chkCenter
             // 
             this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkCenter.AutoSize = true;
-            this.chkCenter.Location = new System.Drawing.Point(7, 228);
+            this.chkCenter.Location = new System.Drawing.Point(216, 228);
             this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkCenter.Name = "chkCenter";
-            this.chkCenter.Size = new System.Drawing.Size(141, 17);
+            this.chkCenter.Size = new System.Drawing.Size(243, 17);
             this.chkCenter.TabIndex = 8;
             this.chkCenter.Text = "Always Center Text";
             this.chkCenter.UseVisualStyleBackColor = true;
@@ -332,10 +333,11 @@
             // 
             this.chkSingleLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkSingleLine.AutoSize = true;
-            this.chkSingleLine.Location = new System.Drawing.Point(216, 228);
+            this.tableLayoutPanel1.SetColumnSpan(this.chkSingleLine, 4);
+            this.chkSingleLine.Location = new System.Drawing.Point(7, 257);
             this.chkSingleLine.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkSingleLine.Name = "chkSingleLine";
-            this.chkSingleLine.Size = new System.Drawing.Size(243, 17);
+            this.chkSingleLine.Size = new System.Drawing.Size(452, 17);
             this.chkSingleLine.TabIndex = 40;
             this.chkSingleLine.Text = "Display Game and Category in Single Line";
             this.chkSingleLine.UseVisualStyleBackColor = true;

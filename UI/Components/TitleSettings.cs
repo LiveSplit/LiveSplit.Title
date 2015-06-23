@@ -63,7 +63,6 @@ namespace LiveSplit.UI.Components
             chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
             lblFont.DataBindings.Add("Text", this, "TitleFontString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkColor.DataBindings.Add("Checked", this, "OverrideTitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
-            chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
             chkSingleLine.DataBindings.Add("Checked", this, "SingleLine", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor.DataBindings.Add("BackColor", this, "TitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -155,6 +154,21 @@ namespace LiveSplit.UI.Components
         private void ColorButtonClick(object sender, EventArgs e)
         {
             SettingsHelper.ColorButtonClick((Button)sender, this);
+        }
+
+        private void chkDisplayGameIcon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDisplayGameIcon.Checked)
+            {
+                chkCenter.Enabled = true;
+                chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
+            }
+            else
+            {
+                chkCenter.Enabled = false;
+                chkCenter.DataBindings.Clear();
+                chkCenter.Checked = true;
+            }
         }
     }
 }
