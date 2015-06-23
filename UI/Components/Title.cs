@@ -20,9 +20,7 @@ namespace LiveSplit.UI.Components
         public GraphicsCache Cache { get; set; }
         protected int FrameCount { get; set; }
         protected Image OldImage { get; set; }
-        protected int RunHistoryCount { get; set; }
         protected int FinishedRunsCount { get; set; }
-        protected IRun PreviousRun { get; set; }
 
         public float MinimumWidth
         {
@@ -280,12 +278,12 @@ namespace LiveSplit.UI.Components
                 GameNameLabel.Text = state.Run.GameName;
                 GameNameLabel.AlternateText = state.Run.GameName.GetAbbreviations().ToList();
             }
-            if (PreviousRun != state.Run || RunHistoryCount != state.Run.AttemptHistory.Count)
-            {
-                RunHistoryCount = state.Run.AttemptHistory.Count;
-                PreviousRun = state.Run;
+
+            Cache.Restart();
+            Cache["AttemptHistoryCount"] = state.Run.AttemptHistory.Count;
+            Cache["Run"] = state.Run;
+            if (Cache.HasChanged)
                 FinishedRunsCount = state.Run.AttemptHistory.Where(x => x.Time.RealTime != null).Count();
-            }
 
             if (Settings.ShowAttemptCount && Settings.ShowFinishedRunsCount)
                 AttemptCountLabel.Text = String.Format("{0}/{1}", FinishedRunsCount, state.Run.AttemptCount);
