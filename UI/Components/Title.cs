@@ -132,7 +132,7 @@ namespace LiveSplit.UI.Components
                 }
                 if (mode == LayoutMode.Vertical && Settings.ShowCount)
                 {
-                    if (String.IsNullOrEmpty(state.Run.CategoryName))
+                    if (String.IsNullOrEmpty(CategoryNameLabel.Text))
                     {
                         titleEndPadding += AttemptCountLabel.ActualWidth;
                     }
@@ -157,7 +157,7 @@ namespace LiveSplit.UI.Components
                 }
 
                 GameNameLabel.HorizontalAlignment = StringAlignment.Near;
-                GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.CategoryName) ? StringAlignment.Center : StringAlignment.Near;
+                GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(CategoryNameLabel.Text) ? StringAlignment.Center : StringAlignment.Near;
                 GameNameLabel.Y = 0;
                 GameNameLabel.Height = height;
                 GameNameLabel.Font = TitleFont;
@@ -195,7 +195,7 @@ namespace LiveSplit.UI.Components
                 }
                 CategoryNameLabel.Y = 0;
                 CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
-                CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(state.Run.GameName) ? StringAlignment.Center : StringAlignment.Far;
+                CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
                 CategoryNameLabel.Font = TitleFont;
                 CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
                 CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
@@ -273,10 +273,25 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            if (GameNameLabel.Text != state.Run.GameName)
+            Cache.Restart();
+            Cache["SingleLine"] = Settings.SingleLine;
+            Cache["GameName"] = state.Run.GameName;
+            Cache["CategoryName"] = state.Run.CategoryName;
+            if (Cache.HasChanged)
             {
-                GameNameLabel.Text = state.Run.GameName;
-                GameNameLabel.AlternateText = state.Run.GameName.GetAbbreviations().ToList();
+                if (Settings.SingleLine)
+                {
+                    var text = string.Format("{0} - {1}", state.Run.GameName, state.Run.CategoryName);
+                    GameNameLabel.Text = text;
+                    GameNameLabel.AlternateText = text.GetAbbreviations().ToList();
+                    CategoryNameLabel.Text = "";
+                }
+                else
+                {
+                    GameNameLabel.Text = state.Run.GameName;
+                    GameNameLabel.AlternateText = state.Run.GameName.GetAbbreviations().ToList();
+                    CategoryNameLabel.Text = state.Run.CategoryName;
+                }
             }
 
             Cache.Restart();
@@ -292,7 +307,6 @@ namespace LiveSplit.UI.Components
             else if (Settings.ShowFinishedRunsCount)
                 AttemptCountLabel.Text = FinishedRunsCount.ToString();
 
-            CategoryNameLabel.Text = state.Run.CategoryName;
 
             Cache.Restart();
             Cache["GameIcon"] = state.Run.GameIcon;
