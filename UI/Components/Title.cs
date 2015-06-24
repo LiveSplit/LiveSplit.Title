@@ -277,19 +277,20 @@ namespace LiveSplit.UI.Components
             Cache["SingleLine"] = Settings.SingleLine;
             Cache["GameName"] = state.Run.GameName;
             Cache["CategoryName"] = state.Run.CategoryName;
+            Cache["LayoutMode"] = mode;
             if (Cache.HasChanged)
             {
                 if (Settings.SingleLine)
                 {
                     var text = string.Format("{0} - {1}", state.Run.GameName, state.Run.CategoryName);
                     GameNameLabel.Text = text;
-                    GameNameLabel.AlternateText = text.GetAbbreviations().ToList();
+                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? text.GetAbbreviations().ToList() : new List<string>();
                     CategoryNameLabel.Text = "";
                 }
                 else
                 {
                     GameNameLabel.Text = state.Run.GameName;
-                    GameNameLabel.AlternateText = state.Run.GameName.GetAbbreviations().ToList();
+                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : new List<string>();
                     CategoryNameLabel.Text = state.Run.CategoryName;
                 }
             }
