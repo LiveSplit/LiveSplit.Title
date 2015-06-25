@@ -75,6 +75,7 @@ namespace LiveSplit.UI.Components
         {
             chkColor_CheckedChanged(null, null);
             chkFont_CheckedChanged(null, null);
+            chkDisplayGameIcon_CheckedChanged(null, null);
         }
 
         void chkColor_CheckedChanged(object sender, EventArgs e)
@@ -161,6 +162,7 @@ namespace LiveSplit.UI.Components
             if (chkDisplayGameIcon.Checked)
             {
                 chkCenter.Enabled = true;
+                chkCenter.DataBindings.Clear();
                 chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
             }
             else
