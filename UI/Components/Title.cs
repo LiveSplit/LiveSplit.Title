@@ -271,18 +271,35 @@ namespace LiveSplit.UI.Components
             Settings.SetSettings(settings);
         }
 
+        private IEnumerable<string> getCategoryNameAbbreviations(string categoryName)
+        {
+            var lastOpeningParanthesisIndex = categoryName.LastIndexOf('(');
+            var leftOfParenthesis = categoryName.Substring(0, lastOpeningParanthesisIndex);
+            var parenthesis = categoryName.Substring(lastOpeningParanthesisIndex + 1).TrimEnd(')');
+            var splits = parenthesis.Split(',');
+            
+            for (var i = splits.Length - 1; i > 0; --i)
+            {
+                yield return leftOfParenthesis + "(" + splits.Take(i).Aggregate((a, b) => a + "," + b) + ")";
+            }
+
+            yield return leftOfParenthesis.TrimEnd(' ');
+        }
+
         public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
+            var extendedCategoryName = state.Run.GetExtendedCategoryName();
+
             Cache.Restart();
             Cache["SingleLine"] = Settings.SingleLine;
             Cache["GameName"] = state.Run.GameName;
-            Cache["CategoryName"] = state.Run.CategoryName;
+            Cache["CategoryName"] = extendedCategoryName;
             Cache["LayoutMode"] = mode;
             if (Cache.HasChanged)
             {
                 if (Settings.SingleLine)
                 {
-                    var text = string.Format("{0} - {1}", state.Run.GameName, state.Run.CategoryName);
+                    var text = string.Format("{0} - {1}", state.Run.GameName, extendedCategoryName);
                     GameNameLabel.Text = text;
                     GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? text.GetAbbreviations().ToList() : new List<string>();
                     CategoryNameLabel.Text = "";
@@ -291,7 +308,8 @@ namespace LiveSplit.UI.Components
                 {
                     GameNameLabel.Text = state.Run.GameName;
                     GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : new List<string>();
-                    CategoryNameLabel.Text = state.Run.CategoryName;
+                    CategoryNameLabel.Text = extendedCategoryName;
+                    CategoryNameLabel.AlternateText = mode == LayoutMode.Vertical ? getCategoryNameAbbreviations(extendedCategoryName).ToList() : new List<string>();
                 }
             }
 
