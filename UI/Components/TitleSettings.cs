@@ -25,6 +25,10 @@ namespace LiveSplit.UI.Components
         public bool SingleLine { get; set; }
         public bool DisplayGameIcon { get; set; }
 
+        public bool ShowRegion { get; set; }
+        public bool ShowPlatform { get; set; }
+        public bool ShowVariables { get; set; }
+
         public Color TitleColor { get; set; }
         public bool OverrideTitleColor { get; set; }
 
@@ -54,6 +58,9 @@ namespace LiveSplit.UI.Components
             OverrideTitleColor = false;
             CenterTitle = true;
             SingleLine = false;
+            ShowRegion = false;
+            ShowPlatform = false;
+            ShowVariables = true;
             BackgroundColor = Color.FromArgb(255, 42, 42, 42);
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
             BackgroundGradient = GradientType.Vertical;
@@ -69,6 +76,9 @@ namespace LiveSplit.UI.Components
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
             chkDisplayGameIcon.DataBindings.Add("Checked", this, "DisplayGameIcon", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkRegion.DataBindings.Add("Checked", this, "ShowRegion", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkPlatform.DataBindings.Add("Checked", this, "ShowPlatform", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkVariables.DataBindings.Add("Checked", this, "ShowVariables", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void TitleSettings_Load(object sender, EventArgs e)
@@ -125,12 +135,15 @@ namespace LiveSplit.UI.Components
             ShowFinishedRunsCount = SettingsHelper.ParseBool(element["ShowFinishedRunsCount"], false);
             CenterTitle = SettingsHelper.ParseBool(element["CenterTitle"], false);
             SingleLine = SettingsHelper.ParseBool(element["SingleLine"], false);
+            ShowRegion = SettingsHelper.ParseBool(element["ShowRegion"], false);
+            ShowPlatform = SettingsHelper.ParseBool(element["ShowPlatform"], false);
+            ShowVariables = SettingsHelper.ParseBool(element["ShowVariables"], true);
         }
 
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.5"));
+            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.6"));
             parent.AppendChild(SettingsHelper.ToElement(document, "ShowAttemptCount", ShowAttemptCount));
             parent.AppendChild(SettingsHelper.ToElement(document, "ShowFinishedRunsCount", ShowFinishedRunsCount));
             parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleFont", OverrideTitleFont));
@@ -143,6 +156,9 @@ namespace LiveSplit.UI.Components
             parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor2, "BackgroundColor2"));
             parent.AppendChild(SettingsHelper.ToElement(document, "BackgroundGradient", BackgroundGradient));
             parent.AppendChild(SettingsHelper.ToElement(document, "DisplayGameIcon", DisplayGameIcon));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowRegion", ShowRegion));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowPlatform", ShowPlatform));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowVariables", ShowVariables));
             return parent;
         }
 
