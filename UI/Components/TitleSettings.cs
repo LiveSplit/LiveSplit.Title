@@ -52,7 +52,7 @@ namespace LiveSplit.UI.Components
             OverrideTitleFont = false;
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
-            CenterTitle = true;
+            CenterTitle = false;
             SingleLine = false;
             BackgroundColor = Color.FromArgb(255, 42, 42, 42);
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
