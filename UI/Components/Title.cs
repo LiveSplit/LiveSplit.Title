@@ -1,13 +1,10 @@
 ﻿using LiveSplit.Model;
-using LiveSplit.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -60,7 +57,7 @@ namespace LiveSplit.UI.Components
             AttemptCountLabel = new SimpleLabel();
         }
 
-        private void DrawGeneral(Graphics g, Model.LiveSplitState state, float width, float height, LayoutMode mode)
+        private void DrawGeneral(Graphics g, LiveSplitState state, float width, float height, LayoutMode mode)
         {
                 if (Settings.BackgroundColor.ToArgb() != Color.Transparent.ToArgb()
                 || Settings.BackgroundGradient != GradientType.Plain
@@ -132,7 +129,7 @@ namespace LiveSplit.UI.Components
                 }
                 if (mode == LayoutMode.Vertical && Settings.ShowCount)
                 {
-                    if (String.IsNullOrEmpty(CategoryNameLabel.Text))
+                    if (string.IsNullOrEmpty(CategoryNameLabel.Text))
                     {
                         titleEndPadding += AttemptCountLabel.ActualWidth;
                     }
@@ -157,7 +154,7 @@ namespace LiveSplit.UI.Components
                 }
 
                 GameNameLabel.HorizontalAlignment = StringAlignment.Near;
-                GameNameLabel.VerticalAlignment = String.IsNullOrEmpty(CategoryNameLabel.Text) ? StringAlignment.Center : StringAlignment.Near;
+                GameNameLabel.VerticalAlignment = string.IsNullOrEmpty(CategoryNameLabel.Text) ? StringAlignment.Center : StringAlignment.Near;
                 GameNameLabel.Y = 0;
                 GameNameLabel.Height = height;
                 GameNameLabel.Font = TitleFont;
@@ -196,7 +193,7 @@ namespace LiveSplit.UI.Components
                 }
                 CategoryNameLabel.Y = 0;
                 CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
-                CategoryNameLabel.VerticalAlignment = String.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
+                CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
                 CategoryNameLabel.Font = TitleFont;
                 CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
                 CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
@@ -242,12 +239,12 @@ namespace LiveSplit.UI.Components
             }
         }
 
-        public void DrawHorizontal(Graphics g, Model.LiveSplitState state, float height, Region clipRegion)
+        public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
         {
             DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal);
         }
 
-        public void DrawVertical(System.Drawing.Graphics g, Model.LiveSplitState state, float width, Region clipRegion)
+        public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
         {
             DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Vertical);
         }
@@ -262,12 +259,12 @@ namespace LiveSplit.UI.Components
             return Settings;
         }
 
-        public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
+        public System.Xml.XmlNode GetSettings(XmlDocument document)
         {
             return Settings.GetSettings(document);  
         }
 
-        public void SetSettings(System.Xml.XmlNode settings)
+        public void SetSettings(XmlNode settings)
         {
             Settings.SetSettings(settings);
         }
@@ -290,7 +287,7 @@ namespace LiveSplit.UI.Components
             yield return categoryName.TrimEnd(' ');
         }
 
-        public void Update(IInvalidator invalidator, Model.LiveSplitState state, float width, float height, LayoutMode mode)
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
             var extendedCategoryName = state.Run.GetExtendedCategoryName(Settings.ShowRegion, Settings.ShowPlatform, Settings.ShowVariables);
 
@@ -324,7 +321,7 @@ namespace LiveSplit.UI.Components
                 FinishedRunsCount = state.Run.AttemptHistory.Where(x => x.Time.RealTime != null).Count();
 
             if (Settings.ShowAttemptCount && Settings.ShowFinishedRunsCount)
-                AttemptCountLabel.Text = String.Format("{0}/{1}", FinishedRunsCount, state.Run.AttemptCount);
+                AttemptCountLabel.Text = string.Format("{0}/{1}", FinishedRunsCount, state.Run.AttemptCount);
             else if (Settings.ShowAttemptCount)
                 AttemptCountLabel.Text = state.Run.AttemptCount.ToString();
             else if (Settings.ShowFinishedRunsCount)
