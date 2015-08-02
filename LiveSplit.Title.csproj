@@ -83,6 +83,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UI\Components\TitleSettings.ja-JP.resx">
+      <DependentUpon>TitleSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\TitleSettings.resx">
       <DependentUpon>TitleSettings.cs</DependentUpon>
     </EmbeddedResource>
