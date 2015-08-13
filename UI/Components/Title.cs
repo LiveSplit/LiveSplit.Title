@@ -59,147 +59,142 @@ namespace LiveSplit.UI.Components
 
         private void DrawGeneral(Graphics g, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-                if (Settings.BackgroundColor.ToArgb() != Color.Transparent.ToArgb()
-                || Settings.BackgroundGradient != GradientType.Plain
-                && Settings.BackgroundColor2.ToArgb() != Color.Transparent.ToArgb())
+            if (Settings.BackgroundColor.ToArgb() != Color.Transparent.ToArgb()
+            || Settings.BackgroundGradient != GradientType.Plain
+            && Settings.BackgroundColor2.ToArgb() != Color.Transparent.ToArgb())
+            {
+                var gradientBrush = new LinearGradientBrush(
+                            new PointF(0, 0),
+                            Settings.BackgroundGradient == GradientType.Horizontal
+                            ? new PointF(width, 0)
+                            : new PointF(0, height),
+                            Settings.BackgroundColor,
+                            Settings.BackgroundGradient == GradientType.Plain
+                            ? Settings.BackgroundColor
+                            : Settings.BackgroundColor2);
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+            if (Settings.OverrideTitleFont)
+                TitleFont = Settings.TitleFont;
+            else
+                TitleFont = state.LayoutSettings.TextFont;
+            MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
+            VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
+            var showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
+            if (showGameIcon)
+            {
+                var icon = state.Run.GameIcon;
+
+                if (OldImage != icon)
                 {
-                    var gradientBrush = new LinearGradientBrush(
-                                new PointF(0, 0),
-                                Settings.BackgroundGradient == GradientType.Horizontal
-                                ? new PointF(width, 0)
-                                : new PointF(0, height),
-                                Settings.BackgroundColor,
-                                Settings.BackgroundGradient == GradientType.Plain
-                                ? Settings.BackgroundColor
-                                : Settings.BackgroundColor2);
-                    g.FillRectangle(gradientBrush, 0, 0, width, height);
-                }
-                if (Settings.OverrideTitleFont)
-                    TitleFont = Settings.TitleFont;
-                else
-                    TitleFont = state.LayoutSettings.TextFont;
-                MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
-                VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
-                var showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
-                if (showGameIcon)
-                {
-                    var icon = state.Run.GameIcon;
-
-                    if (OldImage != icon)
-                    {
-                        ImageAnimator.Animate(icon, (s, o) => { });
-                        OldImage = icon;
-                    }
-
-                    /*if (DateTime.Now.Date.Month == 4 && DateTime.Now.Date.Day == 1)
-                    {
-                        icon = LiveSplit.Web.Share.TwitchEmoteResolver.Resolve("Kappa", true, false, false);
-                    }*/
-
-                    var aspectRatio = (float)icon.Width / icon.Height;
-                    var drawWidth = height - 4;
-                    var drawHeight = height - 4;
-                    if (icon.Width > icon.Height)
-                    {
-                        var ratio = icon.Height / (float)icon.Width;
-                        drawHeight *= ratio;
-                    }
-                    else
-                    {
-                        var ratio = icon.Width / (float)icon.Height;
-                        drawWidth *= ratio;
-                    }
-
-                    ImageAnimator.UpdateFrames(icon);
-
-                    g.DrawImage(
-                        icon,
-                        7 + (height - 4 - drawWidth) / 2,
-                        2 + (height - 4 - drawHeight) / 2,
-                        drawWidth,
-                        drawHeight);
+                    ImageAnimator.Animate(icon, (s, o) => { });
+                    OldImage = icon;
                 }
 
-                float startPadding = 5;
-                float titleEndPadding = 5;
-                float categoryEndPadding = 5;
-                if (showGameIcon)
+                var aspectRatio = (float)icon.Width / icon.Height;
+                var drawWidth = height - 4;
+                var drawHeight = height - 4;
+                if (icon.Width > icon.Height)
                 {
-                    startPadding += height + 3;
-                }
-                if (mode == LayoutMode.Vertical && Settings.ShowCount)
-                {
-                    if (string.IsNullOrEmpty(CategoryNameLabel.Text))
-                    {
-                        titleEndPadding += AttemptCountLabel.ActualWidth;
-                    }
-                    else
-                    {
-                        categoryEndPadding += AttemptCountLabel.ActualWidth;
-                    }
-                }
-
-                if (Settings.CenterTitle || !showGameIcon)
-                {
-                    GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
-                    float stringWidth = GameNameLabel.ActualWidth;
-                    PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, titleEndPadding);
-                    GameNameLabel.X = positionAndWidth.position;
-                    GameNameLabel.Width = positionAndWidth.width;
+                    var ratio = icon.Height / (float)icon.Width;
+                    drawHeight *= ratio;
                 }
                 else
                 {
-                    GameNameLabel.X = startPadding;
-                    GameNameLabel.Width = width - startPadding - titleEndPadding;
+                    var ratio = icon.Width / (float)icon.Height;
+                    drawWidth *= ratio;
                 }
 
-                GameNameLabel.HorizontalAlignment = StringAlignment.Near;
-                GameNameLabel.VerticalAlignment = string.IsNullOrEmpty(CategoryNameLabel.Text) ? StringAlignment.Center : StringAlignment.Near;
-                GameNameLabel.Y = 0;
-                GameNameLabel.Height = height;
-                GameNameLabel.Font = TitleFont;
-                GameNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
-                GameNameLabel.HasShadow = state.LayoutSettings.DropShadows;
-                GameNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-                GameNameLabel.Draw(g);
+                ImageAnimator.UpdateFrames(icon);
 
-                if (Settings.ShowCount)
-                {
-                    AttemptCountLabel.HorizontalAlignment = StringAlignment.Far;
-                    AttemptCountLabel.VerticalAlignment = StringAlignment.Far;
-                    AttemptCountLabel.X = 0;
-                    AttemptCountLabel.Y = height - 40;
-                    AttemptCountLabel.Width = width - 5;
-                    AttemptCountLabel.Height = 40;
-                    AttemptCountLabel.Font = TitleFont;
-                    AttemptCountLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
-                    AttemptCountLabel.HasShadow = state.LayoutSettings.DropShadows;
-                    AttemptCountLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-                    AttemptCountLabel.Draw(g);
-                }
+                g.DrawImage(
+                    icon,
+                    7 + (height - 4 - drawWidth) / 2,
+                    2 + (height - 4 - drawHeight) / 2,
+                    drawWidth,
+                    drawHeight);
+            }
 
-                if (Settings.CenterTitle || !showGameIcon)
+            float startPadding = 5;
+            float titleEndPadding = 5;
+            float categoryEndPadding = 5;
+            if (showGameIcon)
+            {
+                startPadding += height + 3;
+            }
+            if (mode == LayoutMode.Vertical && Settings.ShowCount)
+            {
+                if (string.IsNullOrEmpty(CategoryNameLabel.Text))
                 {
-                    CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
-                    float stringWidth = CategoryNameLabel.ActualWidth;
-                    PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
-                    CategoryNameLabel.X = positionAndWidth.position;
-                    CategoryNameLabel.Width = positionAndWidth.width;
+                    titleEndPadding += AttemptCountLabel.ActualWidth;
                 }
                 else
                 {
-                    CategoryNameLabel.X = startPadding;
-                    CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
+                    categoryEndPadding += AttemptCountLabel.ActualWidth;
                 }
-                CategoryNameLabel.Y = 0;
-                CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
-                CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
-                CategoryNameLabel.Font = TitleFont;
-                CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
-                CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
-                CategoryNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-                CategoryNameLabel.Height = height;
-                CategoryNameLabel.Draw(g);
+            }
+
+            if (Settings.CenterTitle || !showGameIcon)
+            {
+                GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
+                float stringWidth = GameNameLabel.ActualWidth;
+                PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, titleEndPadding);
+                GameNameLabel.X = positionAndWidth.position;
+                GameNameLabel.Width = positionAndWidth.width;
+            }
+            else
+            {
+                GameNameLabel.X = startPadding;
+                GameNameLabel.Width = width - startPadding - titleEndPadding;
+            }
+
+            GameNameLabel.HorizontalAlignment = StringAlignment.Near;
+            GameNameLabel.VerticalAlignment = string.IsNullOrEmpty(CategoryNameLabel.Text) ? StringAlignment.Center : StringAlignment.Near;
+            GameNameLabel.Y = 0;
+            GameNameLabel.Height = height;
+            GameNameLabel.Font = TitleFont;
+            GameNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
+            GameNameLabel.HasShadow = state.LayoutSettings.DropShadows;
+            GameNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            GameNameLabel.Draw(g);
+
+            if (Settings.ShowCount)
+            {
+                AttemptCountLabel.HorizontalAlignment = StringAlignment.Far;
+                AttemptCountLabel.VerticalAlignment = StringAlignment.Far;
+                AttemptCountLabel.X = 0;
+                AttemptCountLabel.Y = height - 40;
+                AttemptCountLabel.Width = width - 5;
+                AttemptCountLabel.Height = 40;
+                AttemptCountLabel.Font = TitleFont;
+                AttemptCountLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
+                AttemptCountLabel.HasShadow = state.LayoutSettings.DropShadows;
+                AttemptCountLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+                AttemptCountLabel.Draw(g);
+            }
+
+            if (Settings.CenterTitle || !showGameIcon)
+            {
+                CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
+                float stringWidth = CategoryNameLabel.ActualWidth;
+                PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
+                CategoryNameLabel.X = positionAndWidth.position;
+                CategoryNameLabel.Width = positionAndWidth.width;
+            }
+            else
+            {
+                CategoryNameLabel.X = startPadding;
+                CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
+            }
+            CategoryNameLabel.Y = 0;
+            CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
+            CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
+            CategoryNameLabel.Font = TitleFont;
+            CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
+            CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
+            CategoryNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            CategoryNameLabel.Height = height;
+            CategoryNameLabel.Draw(g);
         }
 
         /*
@@ -261,7 +256,7 @@ namespace LiveSplit.UI.Components
 
         public System.Xml.XmlNode GetSettings(XmlDocument document)
         {
-            return Settings.GetSettings(document);  
+            return Settings.GetSettings(document);
         }
 
         public void SetSettings(XmlNode settings)
@@ -301,8 +296,14 @@ namespace LiveSplit.UI.Components
                 if (Settings.SingleLine)
                 {
                     var text = string.Format("{0} - {1}", state.Run.GameName, extendedCategoryName);
+                    var gameAbbreviations = state.Run.GameName.GetAbbreviations();
+                    var shortestGameName = gameAbbreviations.Last();
+                    var categoryAbbreviations = getCategoryNameAbbreviations(extendedCategoryName);
+                    var combinedAbbreviations1 = gameAbbreviations.Select(x => string.Format("{0} - {1}", x, extendedCategoryName));
+                    var combinedAbbreviations2 = categoryAbbreviations.Select(x => string.Format("{0} - {1}", shortestGameName, x));
+                    var abbreviations = combinedAbbreviations1.Concat(combinedAbbreviations2).ToList();
                     GameNameLabel.Text = text;
-                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? text.GetAbbreviations().ToList() : new List<string>();
+                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? abbreviations : new List<string>();
                     CategoryNameLabel.Text = "";
                 }
                 else
