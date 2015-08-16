@@ -132,23 +132,33 @@ namespace LiveSplit.UI.Components
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.6"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowAttemptCount", ShowAttemptCount));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowFinishedRunsCount", ShowFinishedRunsCount));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleFont", OverrideTitleFont));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTitleColor", OverrideTitleColor));
-            parent.AppendChild(SettingsHelper.CreateFontElement(document, "TitleFont", TitleFont));
-            parent.AppendChild(SettingsHelper.ToElement(document, "CenterTitle", CenterTitle));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SingleLine", SingleLine));
-            parent.AppendChild(SettingsHelper.ToElement(document, TitleColor, "TitleColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor, "BackgroundColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor2, "BackgroundColor2"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "BackgroundGradient", BackgroundGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, "DisplayGameIcon", DisplayGameIcon));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowRegion", ShowRegion));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowPlatform", ShowPlatform));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowVariables", ShowVariables));
+            CreateSettingsNode(document, parent);
             return parent;
+        }
+
+        public int GetSettingsHashCode()
+        {
+            return CreateSettingsNode(null, null);
+        }
+
+        private int CreateSettingsNode(XmlDocument document, XmlElement parent)
+        {
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.6") ^
+            SettingsHelper.CreateSetting(document, parent, "ShowAttemptCount", ShowAttemptCount) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowFinishedRunsCount", ShowFinishedRunsCount) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideTitleFont", OverrideTitleFont) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideTitleColor", OverrideTitleColor) ^
+            SettingsHelper.CreateSetting(document, parent, "TitleFont", TitleFont) ^
+            SettingsHelper.CreateSetting(document, parent, "CenterTitle", CenterTitle) ^
+            SettingsHelper.CreateSetting(document, parent, "SingleLine", SingleLine) ^
+            SettingsHelper.CreateSetting(document, parent, "TitleColor", TitleColor) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor", BackgroundColor) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "DisplayGameIcon", DisplayGameIcon) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowRegion", ShowRegion) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowPlatform", ShowPlatform) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowVariables", ShowVariables);
         }
 
         private void btnFont_Click(object sender, EventArgs e)
