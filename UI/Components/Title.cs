@@ -285,15 +285,7 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            var extendedCategoryName = state.Run.CategoryName;
-            try
-            {
-                extendedCategoryName = state.Run.GetExtendedCategoryName(Settings.ShowRegion, Settings.ShowPlatform, Settings.ShowVariables);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-            }
+            var extendedCategoryName = state.Run.GetExtendedCategoryName(Settings.ShowRegion, Settings.ShowPlatform, Settings.ShowVariables);
 
             Cache.Restart();
             Cache["SingleLine"] = Settings.SingleLine;
