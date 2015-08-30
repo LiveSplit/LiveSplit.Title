@@ -267,20 +267,22 @@ namespace LiveSplit.UI.Components
 
         private IEnumerable<string> getCategoryNameAbbreviations(string categoryName)
         {
-            if (categoryName.Contains('(') && categoryName.Contains(')'))
+            var indexStart = categoryName.IndexOf('(');
+            var indexEnd = categoryName.IndexOf(')', indexStart + 1);
+            var afterParentheses = "";
+            if (indexStart >= 0 && indexEnd >= 0)
             {
-                var lastOpeningParanthesisIndex = categoryName.LastIndexOf('(');
-                var parenthesis = categoryName.Substring(lastOpeningParanthesisIndex + 1).TrimEnd(')');
-                categoryName = categoryName.Substring(0, lastOpeningParanthesisIndex);
-                var splits = parenthesis.Split(',');
+                var inside = categoryName.Substring(indexStart + 1, indexEnd - indexStart - 1);
+                afterParentheses = categoryName.Substring(indexEnd + 1).Trim();
+                categoryName = categoryName.Substring(0, indexStart).Trim();
+                var splits = inside.Split(',');
 
                 for (var i = splits.Length - 1; i > 0; --i)
                 {
-                    yield return categoryName + "(" + splits.Take(i).Aggregate((a, b) => a + "," + b) + ")";
+                    yield return (categoryName + " (" + splits.Take(i).Aggregate((a, b) => a + "," + b) + ") " + afterParentheses).Trim();
                 }
             }
-
-            yield return categoryName.TrimEnd(' ');
+            yield return (categoryName + " " + afterParentheses).Trim();
         }
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
