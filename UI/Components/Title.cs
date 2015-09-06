@@ -1,5 +1,4 @@
 ﻿using LiveSplit.Model;
-using LiveSplit.Options;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,25 +19,18 @@ namespace LiveSplit.UI.Components
         protected Image OldImage { get; set; }
         protected int FinishedRunsCount { get; set; }
 
-        public float MinimumWidth
-        {
-            get { return GameNameLabel.X + AttemptCountLabel.ActualWidth + 5; }
-        }
+        public float MinimumWidth => GameNameLabel.X + AttemptCountLabel.ActualWidth + 5;
 
-        public float HorizontalWidth
-        {
-            get { return Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth + (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)) + GameNameLabel.X + 5; }
-        }
+        public float HorizontalWidth 
+            => Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth + (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)) 
+                + GameNameLabel.X + 5;
 
-        public IDictionary<string, Action> ContextMenuControls
-        {
-            get { return null; }
-        }
+        public IDictionary<string, Action> ContextMenuControls => null;
 
-        public float PaddingTop { get { return 0f; } }
-        public float PaddingLeft { get { return 7f; } }
-        public float PaddingBottom { get { return 0f; } }
-        public float PaddingRight { get { return 7f; } }
+        public float PaddingTop => 0f;
+        public float PaddingLeft => 7f;
+        public float PaddingBottom => 0f;
+        public float PaddingRight => 7f;
 
         protected SimpleLabel GameNameLabel = new SimpleLabel();
         protected SimpleLabel CategoryNameLabel = new SimpleLabel();
@@ -245,17 +237,14 @@ namespace LiveSplit.UI.Components
             DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Vertical);
         }
 
-        public string ComponentName
-        {
-            get { return "Title"; }
-        }
+        public string ComponentName => "Title";
 
         public Control GetSettingsControl(LayoutMode mode)
         {
             return Settings;
         }
 
-        public System.Xml.XmlNode GetSettings(XmlDocument document)
+        public XmlNode GetSettings(XmlDocument document)
         {
             return Settings.GetSettings(document);
         }
@@ -279,10 +268,10 @@ namespace LiveSplit.UI.Components
 
                 for (var i = splits.Length - 1; i > 0; --i)
                 {
-                    yield return (categoryName + " (" + splits.Take(i).Aggregate((a, b) => a + "," + b) + ") " + afterParentheses).Trim();
+                    yield return $"{ categoryName } ({ string.Join(",", splits.Take(i)) }) { afterParentheses }".Trim();
                 }
             }
-            yield return (categoryName + " " + afterParentheses).Trim();
+            yield return $"{ categoryName } { afterParentheses }".Trim();
         }
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
@@ -355,9 +344,6 @@ namespace LiveSplit.UI.Components
         {
         }
 
-        public int GetSettingsHashCode()
-        {
-            return Settings.GetSettingsHashCode();
-        }
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
     }
 }

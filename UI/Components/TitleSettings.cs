@@ -9,7 +9,7 @@ namespace LiveSplit.UI.Components
     {
         public bool ShowAttemptCount { get; set; }
         public bool ShowFinishedRunsCount { get; set; }
-        public bool ShowCount { get { return ShowAttemptCount || ShowFinishedRunsCount; } }
+        public bool ShowCount => ShowAttemptCount || ShowFinishedRunsCount;
         public bool CenterTitle { get; set; }
         public bool SingleLine { get; set; }
         public bool DisplayGameIcon { get; set; }
@@ -21,7 +21,7 @@ namespace LiveSplit.UI.Components
         public Color TitleColor { get; set; }
         public bool OverrideTitleColor { get; set; }
 
-        public string TitleFontString { get { return String.Format("{0} {1}", TitleFont.FontFamily.Name, TitleFont.Style); } }
+        public string TitleFontString => SettingsHelper.FormatFont(TitleFont);
 
         public Font TitleFont { get; set; }
         public bool OverrideTitleFont { get; set; }
@@ -29,7 +29,7 @@ namespace LiveSplit.UI.Components
         public Color BackgroundColor { get; set; }
         public Color BackgroundColor2 { get; set; }
         public GradientType BackgroundGradient { get; set; }
-        public String GradientString
+        public string GradientString
         {
             get { return BackgroundGradient.ToString(); }
             set { BackgroundGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
@@ -136,10 +136,7 @@ namespace LiveSplit.UI.Components
             return parent;
         }
 
-        public int GetSettingsHashCode()
-        {
-            return CreateSettingsNode(null, null);
-        }
+        public int GetSettingsHashCode() => CreateSettingsNode(null, null);
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
