@@ -52,9 +52,35 @@ namespace LiveSplit.UI.Components
 
         private void DrawGeneral(Graphics g, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+            DrawBackground(g, width, height);
+
+            if (Settings.OverrideTitleFont)
+                TitleFont = Settings.TitleFont;
+            else
+                TitleFont = state.LayoutSettings.TextFont;
+
+            MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
+            VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
+            var showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
+            if (showGameIcon)
+            {
+                DrawGameIcon(g, state, height);
+            }
+
+            DrawAttemptCount(g, state, width, height);
+
+            float startPadding, titleEndPadding, categoryEndPadding;
+            CalculatePadding(height, mode, showGameIcon, out startPadding, out titleEndPadding, out categoryEndPadding);
+
+            DrawGameName(g, state, width, height, showGameIcon, startPadding, titleEndPadding);
+            DrawCategoryName(g, state, width, height, showGameIcon, startPadding, categoryEndPadding);
+        }
+
+        private void DrawBackground(Graphics g, float width, float height)
+        {
             if (Settings.BackgroundColor.ToArgb() != Color.Transparent.ToArgb()
-            || Settings.BackgroundGradient != GradientType.Plain
-            && Settings.BackgroundColor2.ToArgb() != Color.Transparent.ToArgb())
+                        || Settings.BackgroundGradient != GradientType.Plain
+                        && Settings.BackgroundColor2.ToArgb() != Color.Transparent.ToArgb())
             {
                 var gradientBrush = new LinearGradientBrush(
                             new PointF(0, 0),
@@ -67,50 +93,13 @@ namespace LiveSplit.UI.Components
                             : Settings.BackgroundColor2);
                 g.FillRectangle(gradientBrush, 0, 0, width, height);
             }
-            if (Settings.OverrideTitleFont)
-                TitleFont = Settings.TitleFont;
-            else
-                TitleFont = state.LayoutSettings.TextFont;
-            MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
-            VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
-            var showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
-            if (showGameIcon)
-            {
-                var icon = state.Run.GameIcon;
+        }
 
-                if (OldImage != icon)
-                {
-                    ImageAnimator.Animate(icon, (s, o) => { });
-                    OldImage = icon;
-                }
-
-                var aspectRatio = (float)icon.Width / icon.Height;
-                var drawWidth = height - 4;
-                var drawHeight = height - 4;
-                if (icon.Width > icon.Height)
-                {
-                    var ratio = icon.Height / (float)icon.Width;
-                    drawHeight *= ratio;
-                }
-                else
-                {
-                    var ratio = icon.Width / (float)icon.Height;
-                    drawWidth *= ratio;
-                }
-
-                ImageAnimator.UpdateFrames(icon);
-
-                g.DrawImage(
-                    icon,
-                    7 + (height - 4 - drawWidth) / 2,
-                    2 + (height - 4 - drawHeight) / 2,
-                    drawWidth,
-                    drawHeight);
-            }
-
-            float startPadding = 5;
-            float titleEndPadding = 5;
-            float categoryEndPadding = 5;
+        private void CalculatePadding(float height, LayoutMode mode, bool showGameIcon, out float startPadding, out float titleEndPadding, out float categoryEndPadding)
+        {
+            startPadding = 5;
+            titleEndPadding = 5;
+            categoryEndPadding = 5;
             if (showGameIcon)
             {
                 startPadding += height + 3;
@@ -126,7 +115,54 @@ namespace LiveSplit.UI.Components
                     categoryEndPadding += AttemptCountLabel.ActualWidth;
                 }
             }
+        }
 
+        private void DrawCategoryName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float categoryEndPadding)
+        {
+            if (Settings.CenterTitle || !showGameIcon)
+            {
+                CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
+                float stringWidth = CategoryNameLabel.ActualWidth;
+                PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
+                CategoryNameLabel.X = positionAndWidth.position;
+                CategoryNameLabel.Width = positionAndWidth.width;
+            }
+            else
+            {
+                CategoryNameLabel.X = startPadding;
+                CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
+            }
+            CategoryNameLabel.Y = 0;
+            CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
+            CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
+            CategoryNameLabel.Font = TitleFont;
+            CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
+            CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
+            CategoryNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            CategoryNameLabel.Height = height;
+            CategoryNameLabel.Draw(g);
+        }
+
+        private void DrawAttemptCount(Graphics g, LiveSplitState state, float width, float height)
+        {
+            if (Settings.ShowCount)
+            {
+                AttemptCountLabel.HorizontalAlignment = StringAlignment.Far;
+                AttemptCountLabel.VerticalAlignment = StringAlignment.Far;
+                AttemptCountLabel.X = 0;
+                AttemptCountLabel.Y = height - 40;
+                AttemptCountLabel.Width = width - 5;
+                AttemptCountLabel.Height = 40;
+                AttemptCountLabel.Font = TitleFont;
+                AttemptCountLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
+                AttemptCountLabel.HasShadow = state.LayoutSettings.DropShadows;
+                AttemptCountLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+                AttemptCountLabel.Draw(g);
+            }
+        }
+
+        private void DrawGameName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float titleEndPadding)
+        {
             if (Settings.CenterTitle || !showGameIcon)
             {
                 GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
@@ -150,44 +186,40 @@ namespace LiveSplit.UI.Components
             GameNameLabel.HasShadow = state.LayoutSettings.DropShadows;
             GameNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
             GameNameLabel.Draw(g);
+        }
 
-            if (Settings.ShowCount)
+        private void DrawGameIcon(Graphics g, LiveSplitState state, float height)
+        {
+            var icon = state.Run.GameIcon;
+
+            if (OldImage != icon)
             {
-                AttemptCountLabel.HorizontalAlignment = StringAlignment.Far;
-                AttemptCountLabel.VerticalAlignment = StringAlignment.Far;
-                AttemptCountLabel.X = 0;
-                AttemptCountLabel.Y = height - 40;
-                AttemptCountLabel.Width = width - 5;
-                AttemptCountLabel.Height = 40;
-                AttemptCountLabel.Font = TitleFont;
-                AttemptCountLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
-                AttemptCountLabel.HasShadow = state.LayoutSettings.DropShadows;
-                AttemptCountLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-                AttemptCountLabel.Draw(g);
+                ImageAnimator.Animate(icon, (s, o) => { });
+                OldImage = icon;
             }
 
-            if (Settings.CenterTitle || !showGameIcon)
+            var aspectRatio = (float)icon.Width / icon.Height;
+            var drawWidth = height - 4;
+            var drawHeight = height - 4;
+            if (icon.Width > icon.Height)
             {
-                CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
-                float stringWidth = CategoryNameLabel.ActualWidth;
-                PositionAndWidth positionAndWidth = calculateCenteredPositionAndWidth(width, stringWidth, startPadding, categoryEndPadding);
-                CategoryNameLabel.X = positionAndWidth.position;
-                CategoryNameLabel.Width = positionAndWidth.width;
+                var ratio = icon.Height / (float)icon.Width;
+                drawHeight *= ratio;
             }
             else
             {
-                CategoryNameLabel.X = startPadding;
-                CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
+                var ratio = icon.Width / (float)icon.Height;
+                drawWidth *= ratio;
             }
-            CategoryNameLabel.Y = 0;
-            CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
-            CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
-            CategoryNameLabel.Font = TitleFont;
-            CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
-            CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
-            CategoryNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-            CategoryNameLabel.Height = height;
-            CategoryNameLabel.Draw(g);
+
+            ImageAnimator.UpdateFrames(icon);
+
+            g.DrawImage(
+                icon,
+                7 + (height - 4 - drawWidth) / 2,
+                2 + (height - 4 - drawHeight) / 2,
+                drawWidth,
+                drawHeight);
         }
 
         /*
