@@ -139,6 +139,7 @@ namespace LiveSplit.UI.Components
             CategoryNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
             CategoryNameLabel.HasShadow = state.LayoutSettings.DropShadows;
             CategoryNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            CategoryNameLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             CategoryNameLabel.Height = height;
             CategoryNameLabel.Draw(g);
         }
@@ -157,6 +158,7 @@ namespace LiveSplit.UI.Components
                 AttemptCountLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
                 AttemptCountLabel.HasShadow = state.LayoutSettings.DropShadows;
                 AttemptCountLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+                AttemptCountLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
                 AttemptCountLabel.Draw(g);
             }
         }
@@ -185,6 +187,7 @@ namespace LiveSplit.UI.Components
             GameNameLabel.Brush = new SolidBrush(Settings.OverrideTitleColor ? Settings.TitleColor : state.LayoutSettings.TextColor);
             GameNameLabel.HasShadow = state.LayoutSettings.DropShadows;
             GameNameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            GameNameLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             GameNameLabel.Draw(g);
         }
 
