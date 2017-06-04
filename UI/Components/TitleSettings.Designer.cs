@@ -51,9 +51,11 @@
             this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.chkRegion = new System.Windows.Forms.CheckBox();
-            this.chkPlatform = new System.Windows.Forms.CheckBox();
             this.chkVariables = new System.Windows.Forms.CheckBox();
+            this.chkPlatform = new System.Windows.Forms.CheckBox();
+            this.chkRegion = new System.Windows.Forms.CheckBox();
+            this.chkGameName = new System.Windows.Forms.CheckBox();
+            this.chkCategoryName = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -70,30 +72,34 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.chkCategoryName, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.chkGameName, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.cmbGradientType, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnColor1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnColor2, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chkAttemptCount, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.chkFinishedRuns, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 3, 4);
-            this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.chkAttemptCount, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chkFinishedRuns, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 364);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 393);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox2
@@ -122,6 +128,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(450, 57);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
@@ -292,7 +299,7 @@
             // 
             this.chkAttemptCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkAttemptCount.AutoSize = true;
-            this.chkAttemptCount.Location = new System.Drawing.Point(216, 199);
+            this.chkAttemptCount.Location = new System.Drawing.Point(216, 228);
             this.chkAttemptCount.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkAttemptCount.Name = "chkAttemptCount";
             this.chkAttemptCount.Size = new System.Drawing.Size(243, 17);
@@ -305,7 +312,7 @@
             this.chkFinishedRuns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkFinishedRuns.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.chkFinishedRuns, 3);
-            this.chkFinishedRuns.Location = new System.Drawing.Point(7, 199);
+            this.chkFinishedRuns.Location = new System.Drawing.Point(7, 228);
             this.chkFinishedRuns.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkFinishedRuns.Name = "chkFinishedRuns";
             this.chkFinishedRuns.Size = new System.Drawing.Size(199, 17);
@@ -318,7 +325,7 @@
             this.chkSingleLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkSingleLine.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.chkSingleLine, 4);
-            this.chkSingleLine.Location = new System.Drawing.Point(7, 257);
+            this.chkSingleLine.Location = new System.Drawing.Point(7, 286);
             this.chkSingleLine.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkSingleLine.Name = "chkSingleLine";
             this.chkSingleLine.Size = new System.Drawing.Size(452, 17);
@@ -330,7 +337,7 @@
             // 
             this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkCenter.AutoSize = true;
-            this.chkCenter.Location = new System.Drawing.Point(216, 228);
+            this.chkCenter.Location = new System.Drawing.Point(216, 257);
             this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkCenter.Name = "chkCenter";
             this.chkCenter.Size = new System.Drawing.Size(243, 17);
@@ -342,7 +349,7 @@
             // 
             this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkDisplayGameIcon.AutoSize = true;
-            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 228);
+            this.chkDisplayGameIcon.Location = new System.Drawing.Point(7, 257);
             this.chkDisplayGameIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkDisplayGameIcon.Name = "chkDisplayGameIcon";
             this.chkDisplayGameIcon.Size = new System.Drawing.Size(141, 17);
@@ -356,7 +363,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox3, 4);
             this.groupBox3.Controls.Add(this.tableLayoutPanel4);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(3, 283);
+            this.groupBox3.Location = new System.Drawing.Point(3, 312);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(456, 78);
             this.groupBox3.TabIndex = 41;
@@ -380,17 +387,17 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(450, 59);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
-            // chkRegion
+            // chkVariables
             // 
-            this.chkRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkRegion.AutoSize = true;
-            this.chkRegion.Location = new System.Drawing.Point(7, 6);
-            this.chkRegion.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkRegion.Name = "chkRegion";
-            this.chkRegion.Size = new System.Drawing.Size(193, 17);
-            this.chkRegion.TabIndex = 0;
-            this.chkRegion.Text = "Show Region";
-            this.chkRegion.UseVisualStyleBackColor = true;
+            this.chkVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkVariables.AutoSize = true;
+            this.chkVariables.Location = new System.Drawing.Point(7, 35);
+            this.chkVariables.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkVariables.Name = "chkVariables";
+            this.chkVariables.Size = new System.Drawing.Size(193, 17);
+            this.chkVariables.TabIndex = 2;
+            this.chkVariables.Text = "Show Variables";
+            this.chkVariables.UseVisualStyleBackColor = true;
             // 
             // chkPlatform
             // 
@@ -404,17 +411,42 @@
             this.chkPlatform.Text = "Show Platform";
             this.chkPlatform.UseVisualStyleBackColor = true;
             // 
-            // chkVariables
+            // chkRegion
             // 
-            this.chkVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkVariables.AutoSize = true;
-            this.chkVariables.Location = new System.Drawing.Point(7, 35);
-            this.chkVariables.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkVariables.Name = "chkVariables";
-            this.chkVariables.Size = new System.Drawing.Size(193, 17);
-            this.chkVariables.TabIndex = 2;
-            this.chkVariables.Text = "Show Variables";
-            this.chkVariables.UseVisualStyleBackColor = true;
+            this.chkRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkRegion.AutoSize = true;
+            this.chkRegion.Location = new System.Drawing.Point(7, 6);
+            this.chkRegion.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkRegion.Name = "chkRegion";
+            this.chkRegion.Size = new System.Drawing.Size(193, 17);
+            this.chkRegion.TabIndex = 0;
+            this.chkRegion.Text = "Show Region";
+            this.chkRegion.UseVisualStyleBackColor = true;
+            // 
+            // chkGameName
+            // 
+            this.chkGameName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkGameName.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.chkGameName, 3);
+            this.chkGameName.Location = new System.Drawing.Point(7, 199);
+            this.chkGameName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkGameName.Name = "chkGameName";
+            this.chkGameName.Size = new System.Drawing.Size(199, 17);
+            this.chkGameName.TabIndex = 42;
+            this.chkGameName.Text = "Show Game Name";
+            this.chkGameName.UseVisualStyleBackColor = true;
+            // 
+            // chkCategoryName
+            // 
+            this.chkCategoryName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkCategoryName.AutoSize = true;
+            this.chkCategoryName.Location = new System.Drawing.Point(216, 199);
+            this.chkCategoryName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkCategoryName.Name = "chkCategoryName";
+            this.chkCategoryName.Size = new System.Drawing.Size(243, 17);
+            this.chkCategoryName.TabIndex = 43;
+            this.chkCategoryName.Text = "Show Category Name";
+            this.chkCategoryName.UseVisualStyleBackColor = true;
             // 
             // TitleSettings
             // 
@@ -423,7 +455,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TitleSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(476, 378);
+            this.Size = new System.Drawing.Size(476, 407);
             this.Load += new System.EventHandler(this.TitleSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -468,5 +500,7 @@
         private System.Windows.Forms.CheckBox chkVariables;
         private System.Windows.Forms.CheckBox chkPlatform;
         private System.Windows.Forms.CheckBox chkRegion;
+        private System.Windows.Forms.CheckBox chkCategoryName;
+        private System.Windows.Forms.CheckBox chkGameName;
     }
 }

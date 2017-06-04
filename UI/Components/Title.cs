@@ -318,9 +318,11 @@ namespace LiveSplit.UI.Components
             Cache["GameName"] = state.Run.GameName;
             Cache["CategoryName"] = extendedCategoryName;
             Cache["LayoutMode"] = mode;
+            Cache["ShowGameName"] = Settings.ShowGameName;
+            Cache["ShowCategoryName"] = Settings.ShowCategoryName;
             if (Cache.HasChanged)
             {
-                if (Settings.SingleLine)
+                if (Settings.SingleLine && Settings.ShowGameName && Settings.ShowCategoryName)
                 {
                     var text = string.Format("{0} - {1}", state.Run.GameName, extendedCategoryName);
                     var gameAbbreviations = state.Run.GameName.GetAbbreviations();
@@ -335,10 +337,26 @@ namespace LiveSplit.UI.Components
                 }
                 else
                 {
-                    GameNameLabel.Text = state.Run.GameName;
-                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : new List<string>();
-                    CategoryNameLabel.Text = extendedCategoryName;
-                    CategoryNameLabel.AlternateText = mode == LayoutMode.Vertical ? getCategoryNameAbbreviations(extendedCategoryName).ToList() : new List<string>();
+                    if (Settings.ShowGameName)
+                    {
+                        GameNameLabel.Text = state.Run.GameName;
+                        GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : new List<string>();
+                    }
+                    else
+                    {
+                        GameNameLabel.Text = "";
+                        GameNameLabel.AlternateText = new List<string>();
+                    }
+                    if (Settings.ShowCategoryName)
+                    {
+                        CategoryNameLabel.Text = extendedCategoryName;
+                        CategoryNameLabel.AlternateText = mode == LayoutMode.Vertical ? getCategoryNameAbbreviations(extendedCategoryName).ToList() : new List<string>();
+                    }
+                    else
+                    {
+                        CategoryNameLabel.Text = "";
+                        CategoryNameLabel.AlternateText = new List<string>();
+                    }
                 }
             }
 

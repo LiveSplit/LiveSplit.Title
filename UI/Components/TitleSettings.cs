@@ -7,6 +7,8 @@ namespace LiveSplit.UI.Components
 {
     public partial class TitleSettings : UserControl
     {
+        public bool ShowGameName { get; set; }
+        public bool ShowCategoryName { get; set; }
         public bool ShowAttemptCount { get; set; }
         public bool ShowFinishedRunsCount { get; set; }
         public bool ShowCount => ShowAttemptCount || ShowFinishedRunsCount;
@@ -38,6 +40,8 @@ namespace LiveSplit.UI.Components
         public TitleSettings()
         {
             InitializeComponent();
+            ShowGameName = true;
+            ShowCategoryName = true;
             ShowAttemptCount = true;
             ShowFinishedRunsCount = false;
             DisplayGameIcon = true;
@@ -54,6 +58,8 @@ namespace LiveSplit.UI.Components
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
             BackgroundGradient = GradientType.Vertical;
 
+            chkGameName.DataBindings.Add("Checked", this, "ShowGameName", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkCategoryName.DataBindings.Add("Checked", this, "ShowCategoryName", false, DataSourceUpdateMode.OnPropertyChanged);
             chkAttemptCount.DataBindings.Add("Checked", this, "ShowAttemptCount", false, DataSourceUpdateMode.OnPropertyChanged);
             chkFinishedRuns.DataBindings.Add("Checked", this, "ShowFinishedRunsCount", false, DataSourceUpdateMode.OnPropertyChanged);
             chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -114,6 +120,8 @@ namespace LiveSplit.UI.Components
                 OverrideTitleFont = false;
             }
 
+            ShowGameName = SettingsHelper.ParseBool(element["ShowGameName"], true);
+            ShowCategoryName = SettingsHelper.ParseBool(element["ShowCategoryName"], true);
             ShowAttemptCount = SettingsHelper.ParseBool(element["ShowAttemptCount"]);
             TitleColor = SettingsHelper.ParseColor(element["TitleColor"], Color.FromArgb(255, 255, 255, 255));
             OverrideTitleColor = SettingsHelper.ParseBool(element["OverrideTitleColor"], false);
@@ -140,7 +148,9 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Version", "1.6") ^
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.7") ^
+            SettingsHelper.CreateSetting(document, parent, "ShowGameName", ShowGameName) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowCategoryName", ShowCategoryName) ^
             SettingsHelper.CreateSetting(document, parent, "ShowAttemptCount", ShowAttemptCount) ^
             SettingsHelper.CreateSetting(document, parent, "ShowFinishedRunsCount", ShowFinishedRunsCount) ^
             SettingsHelper.CreateSetting(document, parent, "OverrideTitleFont", OverrideTitleFont) ^
