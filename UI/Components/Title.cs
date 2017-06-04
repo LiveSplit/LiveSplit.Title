@@ -387,7 +387,7 @@ namespace LiveSplit.UI.Components
             Cache["CategoryNameLabel"] = CategoryNameLabel.Text;
             Cache["AttemptCountLabel"] = AttemptCountLabel.Text;
 
-            if (invalidator != null && Cache.HasChanged || FrameCount > 1)
+            if (invalidator != null && (Cache.HasChanged || FrameCount > 1))
             {
                 invalidator.Invalidate(0, 0, width, height);
             }
