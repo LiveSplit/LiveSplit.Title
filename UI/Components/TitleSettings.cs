@@ -113,7 +113,7 @@ namespace LiveSplit.UI.Components
                 if (version >= new Version(1, 3))
                 {
                     OverrideTitleFont = SettingsHelper.ParseBool(element["OverrideTitleFont"]);
-                    if (version <= new Version(1, 8) && !DisplayGameIcon)
+                    if (version < new Version(1, 7, 3) && !DisplayGameIcon)
                         CenterTitle = true;
                     else
                         CenterTitle = SettingsHelper.ParseBool(element["CenterTitle"], false);
@@ -153,7 +153,7 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Version", "1.8.0") ^
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.7.3") ^
             SettingsHelper.CreateSetting(document, parent, "ShowGameName", ShowGameName) ^
             SettingsHelper.CreateSetting(document, parent, "ShowCategoryName", ShowCategoryName) ^
             SettingsHelper.CreateSetting(document, parent, "ShowAttemptCount", ShowAttemptCount) ^
