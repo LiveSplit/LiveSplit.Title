@@ -12,7 +12,7 @@ namespace LiveSplit.UI.Components
         public bool ShowAttemptCount { get; set; }
         public bool ShowFinishedRunsCount { get; set; }
         public bool ShowCount => ShowAttemptCount || ShowFinishedRunsCount;
-        public bool CenterTitle { get; set; }
+        public AlignmentType TextAlignment { get; set; }
         public bool SingleLine { get; set; }
         public bool DisplayGameIcon { get; set; }
 
@@ -49,7 +49,6 @@ namespace LiveSplit.UI.Components
             OverrideTitleFont = false;
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
-            CenterTitle = false;
             SingleLine = false;
             ShowRegion = false;
             ShowPlatform = false;
@@ -57,6 +56,7 @@ namespace LiveSplit.UI.Components
             BackgroundColor = Color.FromArgb(255, 42, 42, 42);
             BackgroundColor2 = Color.FromArgb(255, 19, 19, 19);
             BackgroundGradient = GradientType.Vertical;
+            TextAlignment = AlignmentType.Auto;
 
             chkGameName.DataBindings.Add("Checked", this, "ShowGameName", false, DataSourceUpdateMode.OnPropertyChanged);
             chkCategoryName.DataBindings.Add("Checked", this, "ShowCategoryName", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -70,7 +70,6 @@ namespace LiveSplit.UI.Components
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
             chkDisplayGameIcon.DataBindings.Add("Checked", this, "DisplayGameIcon", false, DataSourceUpdateMode.OnPropertyChanged);
-            chkCenter.DataBindings.Add("Checked", this, "CenterTitle", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkRegion.DataBindings.Add("Checked", this, "ShowRegion", false, DataSourceUpdateMode.OnPropertyChanged);
             chkPlatform.DataBindings.Add("Checked", this, "ShowPlatform", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -81,6 +80,7 @@ namespace LiveSplit.UI.Components
         {
             chkColor_CheckedChanged(null, null);
             chkFont_CheckedChanged(null, null);
+            cmbTextAlignment.SelectedIndex = (int)TextAlignment;
         }
 
         void chkColor_CheckedChanged(object sender, EventArgs e)
@@ -101,6 +101,11 @@ namespace LiveSplit.UI.Components
             GradientString = cmbGradientType.SelectedItem.ToString();
         }
 
+        void cmbTextAlignment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TextAlignment = (AlignmentType)cmbTextAlignment.SelectedIndex;
+        }
+
         public void SetSettings(XmlNode node)
         {
             var element = (XmlElement)node;
@@ -113,10 +118,17 @@ namespace LiveSplit.UI.Components
                 if (version >= new Version(1, 3))
                 {
                     OverrideTitleFont = SettingsHelper.ParseBool(element["OverrideTitleFont"]);
-                    if (version < new Version(1, 7, 3) && !DisplayGameIcon)
-                        CenterTitle = true;
+                    if (version >= new Version(1, 7, 3))
+                    {
+                        TextAlignment = (AlignmentType)SettingsHelper.ParseInt(element["TextAlignment"], 0);
+                    }
                     else
-                        CenterTitle = SettingsHelper.ParseBool(element["CenterTitle"], false);
+                    {
+                        if (DisplayGameIcon && SettingsHelper.ParseBool(element["CenterTitle"], false))
+                            TextAlignment = AlignmentType.Center;
+                        else
+                            TextAlignment = AlignmentType.Auto;
+                    }
                 }
                 else
                     OverrideTitleFont = !SettingsHelper.ParseBool(element["UseLayoutSettingsFont"]);
@@ -161,7 +173,6 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "OverrideTitleFont", OverrideTitleFont) ^
             SettingsHelper.CreateSetting(document, parent, "OverrideTitleColor", OverrideTitleColor) ^
             SettingsHelper.CreateSetting(document, parent, "TitleFont", TitleFont) ^
-            SettingsHelper.CreateSetting(document, parent, "CenterTitle", CenterTitle) ^
             SettingsHelper.CreateSetting(document, parent, "SingleLine", SingleLine) ^
             SettingsHelper.CreateSetting(document, parent, "TitleColor", TitleColor) ^
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor", BackgroundColor) ^
@@ -170,7 +181,8 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "DisplayGameIcon", DisplayGameIcon) ^
             SettingsHelper.CreateSetting(document, parent, "ShowRegion", ShowRegion) ^
             SettingsHelper.CreateSetting(document, parent, "ShowPlatform", ShowPlatform) ^
-            SettingsHelper.CreateSetting(document, parent, "ShowVariables", ShowVariables);
+            SettingsHelper.CreateSetting(document, parent, "ShowVariables", ShowVariables) ^
+            SettingsHelper.CreateSetting(document, parent, "TextAlignment", (int)TextAlignment);
         }
 
         private void btnFont_Click(object sender, EventArgs e)
