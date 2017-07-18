@@ -119,7 +119,7 @@ namespace LiveSplit.UI.Components
 
         private void DrawCategoryName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float categoryEndPadding)
         {
-            if (Settings.CenterTitle || !showGameIcon)
+            if (Settings.CenterTitle)
             {
                 CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
                 float stringWidth = CategoryNameLabel.ActualWidth;
@@ -165,7 +165,7 @@ namespace LiveSplit.UI.Components
 
         private void DrawGameName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float titleEndPadding)
         {
-            if (Settings.CenterTitle || !showGameIcon)
+            if (Settings.CenterTitle)
             {
                 GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
                 float stringWidth = GameNameLabel.ActualWidth;

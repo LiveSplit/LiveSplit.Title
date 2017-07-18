@@ -356,7 +356,6 @@
             this.chkDisplayGameIcon.TabIndex = 7;
             this.chkDisplayGameIcon.Text = "Display Game Icon";
             this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
-            this.chkDisplayGameIcon.CheckedChanged += new System.EventHandler(this.chkDisplayGameIcon_CheckedChanged);
             // 
             // groupBox3
             // 
