@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkCategoryName = new System.Windows.Forms.CheckBox();
+            this.chkGameName = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.chkColor = new System.Windows.Forms.CheckBox();
@@ -46,16 +48,15 @@
             this.btnColor2 = new System.Windows.Forms.Button();
             this.chkAttemptCount = new System.Windows.Forms.CheckBox();
             this.chkFinishedRuns = new System.Windows.Forms.CheckBox();
-            this.chkSingleLine = new System.Windows.Forms.CheckBox();
-            this.chkCenter = new System.Windows.Forms.CheckBox();
             this.chkDisplayGameIcon = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.chkVariables = new System.Windows.Forms.CheckBox();
             this.chkPlatform = new System.Windows.Forms.CheckBox();
             this.chkRegion = new System.Windows.Forms.CheckBox();
-            this.chkGameName = new System.Windows.Forms.CheckBox();
-            this.chkCategoryName = new System.Windows.Forms.CheckBox();
+            this.chkSingleLine = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbTextAlignment = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -82,10 +83,11 @@
             this.tableLayoutPanel1.Controls.Add(this.btnColor2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.chkAttemptCount, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.chkFinishedRuns, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.chkCenter, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.chkDisplayGameIcon, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.chkSingleLine, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.cmbTextAlignment, 1, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -96,11 +98,35 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 393);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // chkCategoryName
+            // 
+            this.chkCategoryName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkCategoryName.AutoSize = true;
+            this.chkCategoryName.Location = new System.Drawing.Point(216, 199);
+            this.chkCategoryName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkCategoryName.Name = "chkCategoryName";
+            this.chkCategoryName.Size = new System.Drawing.Size(243, 17);
+            this.chkCategoryName.TabIndex = 43;
+            this.chkCategoryName.Text = "Show Category Name";
+            this.chkCategoryName.UseVisualStyleBackColor = true;
+            // 
+            // chkGameName
+            // 
+            this.chkGameName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkGameName.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.chkGameName, 3);
+            this.chkGameName.Location = new System.Drawing.Point(7, 199);
+            this.chkGameName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkGameName.Name = "chkGameName";
+            this.chkGameName.Size = new System.Drawing.Size(199, 17);
+            this.chkGameName.TabIndex = 42;
+            this.chkGameName.Text = "Show Game Name";
+            this.chkGameName.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -320,31 +346,6 @@
             this.chkFinishedRuns.Text = "Show Finished Runs Count";
             this.chkFinishedRuns.UseVisualStyleBackColor = true;
             // 
-            // chkSingleLine
-            // 
-            this.chkSingleLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkSingleLine.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.chkSingleLine, 4);
-            this.chkSingleLine.Location = new System.Drawing.Point(7, 286);
-            this.chkSingleLine.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkSingleLine.Name = "chkSingleLine";
-            this.chkSingleLine.Size = new System.Drawing.Size(452, 17);
-            this.chkSingleLine.TabIndex = 40;
-            this.chkSingleLine.Text = "Display Game and Category in Single Line";
-            this.chkSingleLine.UseVisualStyleBackColor = true;
-            // 
-            // chkCenter
-            // 
-            this.chkCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkCenter.AutoSize = true;
-            this.chkCenter.Location = new System.Drawing.Point(216, 257);
-            this.chkCenter.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkCenter.Name = "chkCenter";
-            this.chkCenter.Size = new System.Drawing.Size(243, 17);
-            this.chkCenter.TabIndex = 8;
-            this.chkCenter.Text = "Center Text";
-            this.chkCenter.UseVisualStyleBackColor = true;
-            // 
             // chkDisplayGameIcon
             // 
             this.chkDisplayGameIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -356,16 +357,15 @@
             this.chkDisplayGameIcon.TabIndex = 7;
             this.chkDisplayGameIcon.Text = "Display Game Icon";
             this.chkDisplayGameIcon.UseVisualStyleBackColor = true;
-            this.chkDisplayGameIcon.CheckedChanged += new System.EventHandler(this.chkDisplayGameIcon_CheckedChanged);
             // 
             // groupBox3
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox3, 4);
             this.groupBox3.Controls.Add(this.tableLayoutPanel4);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(3, 312);
+            this.groupBox3.Location = new System.Drawing.Point(3, 317);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(456, 78);
+            this.groupBox3.Size = new System.Drawing.Size(456, 73);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Additional Category Info";
@@ -384,7 +384,7 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(450, 59);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(450, 54);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // chkVariables
@@ -423,30 +423,43 @@
             this.chkRegion.Text = "Show Region";
             this.chkRegion.UseVisualStyleBackColor = true;
             // 
-            // chkGameName
+            // chkSingleLine
             // 
-            this.chkGameName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkGameName.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.chkGameName, 3);
-            this.chkGameName.Location = new System.Drawing.Point(7, 199);
-            this.chkGameName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkGameName.Name = "chkGameName";
-            this.chkGameName.Size = new System.Drawing.Size(199, 17);
-            this.chkGameName.TabIndex = 42;
-            this.chkGameName.Text = "Show Game Name";
-            this.chkGameName.UseVisualStyleBackColor = true;
+            this.chkSingleLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSingleLine.AutoSize = true;
+            this.chkSingleLine.Location = new System.Drawing.Point(216, 257);
+            this.chkSingleLine.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkSingleLine.Name = "chkSingleLine";
+            this.chkSingleLine.Size = new System.Drawing.Size(243, 17);
+            this.chkSingleLine.TabIndex = 40;
+            this.chkSingleLine.Text = "Display Game and Category in Single Line";
+            this.chkSingleLine.UseVisualStyleBackColor = true;
             // 
-            // chkCategoryName
+            // label2
             // 
-            this.chkCategoryName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkCategoryName.AutoSize = true;
-            this.chkCategoryName.Location = new System.Drawing.Point(216, 199);
-            this.chkCategoryName.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkCategoryName.Name = "chkCategoryName";
-            this.chkCategoryName.Size = new System.Drawing.Size(243, 17);
-            this.chkCategoryName.TabIndex = 43;
-            this.chkCategoryName.Text = "Show Category Name";
-            this.chkCategoryName.UseVisualStyleBackColor = true;
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 290);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(145, 13);
+            this.label2.TabIndex = 44;
+            this.label2.Text = "Text Alignment:";
+            // 
+            // cmbTextAlignment
+            // 
+            this.cmbTextAlignment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.cmbTextAlignment, 3);
+            this.cmbTextAlignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTextAlignment.FormattingEnabled = true;
+            this.cmbTextAlignment.Items.AddRange(new object[] {
+            "Automatic (Based on Icon)",
+            "Left",
+            "Center"});
+            this.cmbTextAlignment.Location = new System.Drawing.Point(154, 286);
+            this.cmbTextAlignment.Name = "cmbTextAlignment";
+            this.cmbTextAlignment.Size = new System.Drawing.Size(305, 21);
+            this.cmbTextAlignment.TabIndex = 45;
+            this.cmbTextAlignment.SelectedIndexChanged += new System.EventHandler(this.cmbTextAlignment_SelectedIndexChanged);
             // 
             // TitleSettings
             // 
@@ -493,7 +506,6 @@
         private System.Windows.Forms.Button btnColor2;
         private System.Windows.Forms.CheckBox chkDisplayGameIcon;
         private System.Windows.Forms.CheckBox chkFinishedRuns;
-        private System.Windows.Forms.CheckBox chkCenter;
         private System.Windows.Forms.CheckBox chkSingleLine;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
@@ -502,5 +514,7 @@
         private System.Windows.Forms.CheckBox chkRegion;
         private System.Windows.Forms.CheckBox chkCategoryName;
         private System.Windows.Forms.CheckBox chkGameName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbTextAlignment;
     }
 }

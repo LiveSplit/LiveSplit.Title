@@ -119,7 +119,7 @@ namespace LiveSplit.UI.Components
 
         private void DrawCategoryName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float categoryEndPadding)
         {
-            if (Settings.CenterTitle || !showGameIcon)
+            if (Settings.TextAlignment == AlignmentType.Center || (Settings.TextAlignment == AlignmentType.Auto && !showGameIcon))
             {
                 CategoryNameLabel.CalculateAlternateText(g, width - startPadding - categoryEndPadding);
                 float stringWidth = CategoryNameLabel.ActualWidth;
@@ -165,7 +165,7 @@ namespace LiveSplit.UI.Components
 
         private void DrawGameName(Graphics g, LiveSplitState state, float width, float height, bool showGameIcon, float startPadding, float titleEndPadding)
         {
-            if (Settings.CenterTitle || !showGameIcon)
+            if (Settings.TextAlignment == AlignmentType.Center || (Settings.TextAlignment == AlignmentType.Auto && !showGameIcon))
             {
                 GameNameLabel.CalculateAlternateText(g, width - startPadding - titleEndPadding);
                 float stringWidth = GameNameLabel.ActualWidth;
@@ -386,6 +386,7 @@ namespace LiveSplit.UI.Components
             Cache["GameNameLabel"] = GameNameLabel.Text;
             Cache["CategoryNameLabel"] = CategoryNameLabel.Text;
             Cache["AttemptCountLabel"] = AttemptCountLabel.Text;
+            Cache["TextAlignment"] = Settings.TextAlignment;
 
             if (invalidator != null && (Cache.HasChanged || FrameCount > 1))
             {
