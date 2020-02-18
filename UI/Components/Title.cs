@@ -21,9 +21,34 @@ namespace LiveSplit.UI.Components
 
         public float MinimumWidth => GameNameLabel.X + AttemptCountLabel.ActualWidth + 5;
 
-        public float HorizontalWidth 
-            => Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth + (Settings.ShowCount ? AttemptCountLabel.ActualWidth : 0)) 
-                + GameNameLabel.X + 5;
+        public float HorizontalWidth
+        {
+            get
+            {
+                if (!Settings.ShowCount)
+                {
+                    return Math.Max(GameNameLabel.ActualWidth, CategoryNameLabel.ActualWidth) + GameNameLabel.X + 5;
+                }
+
+                // If the category + attempt is longer than the name, just return category + attempts
+                if (CategoryNameLabel.ActualWidth + AttemptCountLabel.ActualWidth > GameNameLabel.ActualWidth)
+                {
+                    return CategoryNameLabel.ActualWidth + AttemptCountLabel.ActualWidth + CategoryNameLabel.X + 5;
+                }
+
+                // The game name is longer than the category+attempts, so center the category, then add the attempts and compare with the game name.
+                float centeredCategoryWidth = GameNameLabel.ActualWidth / 2 + CategoryNameLabel.ActualWidth / 2 + AttemptCountLabel.ActualWidth;
+                if (centeredCategoryWidth > GameNameLabel.ActualWidth)
+                {
+                    return centeredCategoryWidth + CategoryNameLabel.X + 5;
+                }
+                else
+                {
+                    return GameNameLabel.ActualWidth + GameNameLabel.X + 5;
+                }
+            }
+        }
+
 
         public IDictionary<string, Action> ContextMenuControls => null;
 
