@@ -45,7 +45,7 @@ namespace LiveSplit.UI.Components
             ShowAttemptCount = true;
             ShowFinishedRunsCount = false;
             DisplayGameIcon = true;
-            TitleFont = new Font("Segoe UI", 13, FontStyle.Regular, GraphicsUnit.Pixel);
+            TitleFont = new Font("Segoe UI", 16, FontStyle.Regular, GraphicsUnit.Pixel);
             OverrideTitleFont = false;
             TitleColor = Color.FromArgb(255, 255, 255, 255);
             OverrideTitleColor = false;
