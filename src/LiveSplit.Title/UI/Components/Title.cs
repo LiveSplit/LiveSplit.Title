@@ -328,8 +328,8 @@ public class Title : IComponent
         if (indexStart >= 0 && indexEnd >= 0)
         {
             string inside = categoryName.Substring(indexStart + 1, indexEnd - indexStart - 1);
-            afterParentheses = categoryName.Substring(indexEnd + 1).Trim();
-            categoryName = categoryName.Substring(0, indexStart).Trim();
+            afterParentheses = categoryName[(indexEnd + 1)..].Trim();
+            categoryName = categoryName[..indexStart].Trim();
             string[] splits = inside.Split(',');
 
             for (int i = splits.Length - 1; i > 0; --i)
