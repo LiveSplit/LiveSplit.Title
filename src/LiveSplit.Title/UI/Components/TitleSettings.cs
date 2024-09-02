@@ -76,24 +76,24 @@ public partial class TitleSettings : UserControl
         chkVariables.DataBindings.Add("Checked", this, "ShowVariables", false, DataSourceUpdateMode.OnPropertyChanged);
     }
 
-    void TitleSettings_Load(object sender, EventArgs e)
+    private void TitleSettings_Load(object sender, EventArgs e)
     {
         chkColor_CheckedChanged(null, null);
         chkFont_CheckedChanged(null, null);
         cmbTextAlignment.SelectedIndex = (int)TextAlignment;
     }
 
-    void chkColor_CheckedChanged(object sender, EventArgs e)
+    private void chkColor_CheckedChanged(object sender, EventArgs e)
     {
         label3.Enabled = btnColor.Enabled = chkColor.Checked;
     }
 
-    void chkFont_CheckedChanged(object sender, EventArgs e)
+    private void chkFont_CheckedChanged(object sender, EventArgs e)
     {
         label1.Enabled = lblFont.Enabled = btnFont.Enabled = chkFont.Checked;
     }
 
-    void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
+    private void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
     {
         btnColor1.Visible = cmbGradientType.SelectedItem.ToString() != "Plain";
         btnColor2.DataBindings.Clear();
@@ -101,7 +101,7 @@ public partial class TitleSettings : UserControl
         GradientString = cmbGradientType.SelectedItem.ToString();
     }
 
-    void cmbTextAlignment_SelectedIndexChanged(object sender, EventArgs e)
+    private void cmbTextAlignment_SelectedIndexChanged(object sender, EventArgs e)
     {
         TextAlignment = (AlignmentType)cmbTextAlignment.SelectedIndex;
     }
