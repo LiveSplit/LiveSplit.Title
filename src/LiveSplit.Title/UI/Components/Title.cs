@@ -398,7 +398,7 @@ public class Title : IComponent
         Cache["Run"] = state.Run;
         if (Cache.HasChanged)
         {
-            FinishedRunsInHistory = state.Run.AttemptHistory.Where(x => x.Time.RealTime != null).Count();
+            FinishedRunsInHistory = state.Run.AttemptHistory.Count(x => x.Time.RealTime != null);
         }
 
         var totalFinishedRunsCount = FinishedRunsInHistory + (state.CurrentPhase == TimerPhase.Ended ? 1 : 0);
