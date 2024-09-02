@@ -365,7 +365,7 @@ public class Title : IComponent
                 var combinedAbbreviations2 = categoryAbbreviations.Select(x => string.Format("{0} - {1}", shortestGameName, x));
                 var abbreviations = combinedAbbreviations1.Concat(combinedAbbreviations2).ToList();
                 GameNameLabel.Text = text;
-                GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? abbreviations : new List<string>();
+                GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? abbreviations : [];
                 CategoryNameLabel.Text = "";
             }
             else
@@ -373,23 +373,23 @@ public class Title : IComponent
                 if (Settings.ShowGameName)
                 {
                     GameNameLabel.Text = state.Run.GameName;
-                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : new List<string>();
+                    GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? state.Run.GameName.GetAbbreviations().ToList() : [];
                 }
                 else
                 {
                     GameNameLabel.Text = "";
-                    GameNameLabel.AlternateText = new List<string>();
+                    GameNameLabel.AlternateText = [];
                 }
 
                 if (Settings.ShowCategoryName)
                 {
                     CategoryNameLabel.Text = extendedCategoryName;
-                    CategoryNameLabel.AlternateText = mode == LayoutMode.Vertical ? getCategoryNameAbbreviations(extendedCategoryName).ToList() : new List<string>();
+                    CategoryNameLabel.AlternateText = mode == LayoutMode.Vertical ? getCategoryNameAbbreviations(extendedCategoryName).ToList() : [];
                 }
                 else
                 {
                     CategoryNameLabel.Text = "";
-                    CategoryNameLabel.AlternateText = new List<string>();
+                    CategoryNameLabel.AlternateText = [];
                 }
             }
         }
