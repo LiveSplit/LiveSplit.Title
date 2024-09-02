@@ -38,7 +38,7 @@ public class Title : IComponent
             }
 
             // The game name is longer than the category+attempts, so center the category, then add the attempts and compare with the game name.
-            float centeredCategoryWidth = GameNameLabel.ActualWidth / 2 + CategoryNameLabel.ActualWidth / 2 + AttemptCountLabel.ActualWidth;
+            float centeredCategoryWidth = (GameNameLabel.ActualWidth / 2) + (CategoryNameLabel.ActualWidth / 2) + AttemptCountLabel.ActualWidth;
             if (centeredCategoryWidth > GameNameLabel.ActualWidth)
             {
                 return centeredCategoryWidth + CategoryNameLabel.X + 5;
@@ -49,7 +49,6 @@ public class Title : IComponent
             }
         }
     }
-
 
     public IDictionary<string, Action> ContextMenuControls => null;
 
@@ -81,9 +80,13 @@ public class Title : IComponent
         DrawBackground(g, width, height);
 
         if (Settings.OverrideTitleFont)
+        {
             TitleFont = Settings.TitleFont;
+        }
         else
+        {
             TitleFont = state.LayoutSettings.TextFont;
+        }
 
         MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
         VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
@@ -105,8 +108,8 @@ public class Title : IComponent
     private void DrawBackground(Graphics g, float width, float height)
     {
         if (Settings.BackgroundColor.A > 0
-            || Settings.BackgroundGradient != GradientType.Plain
-            && Settings.BackgroundColor2.A > 0)
+            || (Settings.BackgroundGradient != GradientType.Plain
+            && Settings.BackgroundColor2.A > 0))
         {
             var gradientBrush = new LinearGradientBrush(
                         new PointF(0, 0),
@@ -130,6 +133,7 @@ public class Title : IComponent
         {
             startPadding += height + 3;
         }
+
         if (mode == LayoutMode.Vertical && Settings.ShowCount)
         {
             if (string.IsNullOrEmpty(CategoryNameLabel.Text))
@@ -158,6 +162,7 @@ public class Title : IComponent
             CategoryNameLabel.X = startPadding;
             CategoryNameLabel.Width = width - startPadding - categoryEndPadding;
         }
+
         CategoryNameLabel.Y = 0;
         CategoryNameLabel.HorizontalAlignment = StringAlignment.Near;
         CategoryNameLabel.VerticalAlignment = string.IsNullOrEmpty(GameNameLabel.Text) ? StringAlignment.Center : StringAlignment.Far;
@@ -245,8 +250,8 @@ public class Title : IComponent
 
         g.DrawImage(
             icon,
-            7 + (height - 4 - drawWidth) / 2,
-            2 + (height - 4 - drawHeight) / 2,
+            7 + ((height - 4 - drawWidth) / 2),
+            2 + ((height - 4 - drawHeight) / 2),
             drawWidth,
             drawHeight);
     }
@@ -273,6 +278,7 @@ public class Title : IComponent
                 position = totalWidth - endPadding - stringWidth;
             }
         }
+
         width = totalWidth - endPadding - position;
         return new PositionAndWidth(position, width);
     }
@@ -332,6 +338,7 @@ public class Title : IComponent
                 yield return $"{categoryName} ({string.Join(",", splits.Take(i))}) {afterParentheses}".Trim();
             }
         }
+
         yield return $"{categoryName} {afterParentheses}".Trim();
     }
 
@@ -373,6 +380,7 @@ public class Title : IComponent
                     GameNameLabel.Text = "";
                     GameNameLabel.AlternateText = new List<string>();
                 }
+
                 if (Settings.ShowCategoryName)
                 {
                     CategoryNameLabel.Text = extendedCategoryName;
@@ -390,26 +398,39 @@ public class Title : IComponent
         Cache["AttemptHistoryCount"] = state.Run.AttemptHistory.Count;
         Cache["Run"] = state.Run;
         if (Cache.HasChanged)
+        {
             FinishedRunsInHistory = state.Run.AttemptHistory.Where(x => x.Time.RealTime != null).Count();
+        }
+
         var totalFinishedRunsCount = FinishedRunsInHistory + (state.CurrentPhase == TimerPhase.Ended ? 1 : 0);
 
         if (Settings.ShowAttemptCount && Settings.ShowFinishedRunsCount)
+        {
             AttemptCountLabel.Text = string.Format("{0}/{1}", totalFinishedRunsCount, state.Run.AttemptCount);
+        }
         else if (Settings.ShowAttemptCount)
+        {
             AttemptCountLabel.Text = state.Run.AttemptCount.ToString();
+        }
         else if (Settings.ShowFinishedRunsCount)
+        {
             AttemptCountLabel.Text = totalFinishedRunsCount.ToString();
-
+        }
 
         Cache.Restart();
         Cache["GameIcon"] = state.Run.GameIcon;
         if (Cache.HasChanged)
         {
             if (state.Run.GameIcon == null)
+            {
                 FrameCount = 0;
+            }
             else
+            {
                 FrameCount = state.Run.GameIcon.GetFrameCount(new FrameDimension(state.Run.GameIcon.FrameDimensionsList[0]));
+            }
         }
+
         Cache["GameNameLabel"] = GameNameLabel.Text;
         Cache["CategoryNameLabel"] = CategoryNameLabel.Text;
         Cache["AttemptCountLabel"] = AttemptCountLabel.Text;

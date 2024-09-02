@@ -125,13 +125,19 @@ public partial class TitleSettings : UserControl
                 else
                 {
                     if (DisplayGameIcon && SettingsHelper.ParseBool(element["CenterTitle"], false))
+                    {
                         TextAlignment = AlignmentType.Center;
+                    }
                     else
+                    {
                         TextAlignment = AlignmentType.Auto;
+                    }
                 }
             }
             else
+            {
                 OverrideTitleFont = !SettingsHelper.ParseBool(element["UseLayoutSettingsFont"]);
+            }
         }
         else
         {
