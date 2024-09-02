@@ -425,5 +425,8 @@ public class Title : IComponent
     {
     }
 
-    public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+    public int GetSettingsHashCode()
+    {
+        return Settings.GetSettingsHashCode();
+    }
 }

@@ -15,7 +15,10 @@ public class TitleFactory : IComponentFactory
 
     public ComponentCategory Category => ComponentCategory.Information;
 
-    public IComponent Create(LiveSplitState state) => new Title();
+    public IComponent Create(LiveSplitState state)
+    {
+        return new Title();
+    }
 
     public string UpdateName => ComponentName;
 
