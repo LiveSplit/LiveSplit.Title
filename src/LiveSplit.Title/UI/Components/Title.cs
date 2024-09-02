@@ -98,8 +98,7 @@ public class Title : IComponent
 
         DrawAttemptCount(g, state, width, height);
 
-        float startPadding, titleEndPadding, categoryEndPadding;
-        CalculatePadding(height, mode, showGameIcon, out startPadding, out titleEndPadding, out categoryEndPadding);
+        CalculatePadding(height, mode, showGameIcon, out float startPadding, out float titleEndPadding, out float categoryEndPadding);
 
         DrawGameName(g, state, width, height, showGameIcon, startPadding, titleEndPadding);
         DrawCategoryName(g, state, width, height, showGameIcon, startPadding, categoryEndPadding);
