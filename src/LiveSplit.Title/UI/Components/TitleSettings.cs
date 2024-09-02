@@ -162,7 +162,7 @@ public partial class TitleSettings : UserControl
 
     public XmlNode GetSettings(XmlDocument document)
     {
-        var parent = document.CreateElement("Settings");
+        XmlElement parent = document.CreateElement("Settings");
         CreateSettingsNode(document, parent);
         return parent;
     }
@@ -196,7 +196,7 @@ public partial class TitleSettings : UserControl
 
     private void btnFont_Click(object sender, EventArgs e)
     {
-        var dialog = SettingsHelper.GetFontDialog(TitleFont, 11, 26);
+        CustomFontDialog.FontDialog dialog = SettingsHelper.GetFontDialog(TitleFont, 11, 26);
         dialog.FontChanged += (s, ev) => TitleFont = ((CustomFontDialog.FontChangedEventArgs)ev).NewFont;
         dialog.ShowDialog(this);
         lblFont.Text = TitleFontString;

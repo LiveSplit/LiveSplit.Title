@@ -57,9 +57,9 @@ public class Title : IComponent
     public float PaddingBottom => 0f;
     public float PaddingRight => 7f;
 
-    protected SimpleLabel GameNameLabel = new SimpleLabel();
-    protected SimpleLabel CategoryNameLabel = new SimpleLabel();
-    protected SimpleLabel AttemptCountLabel = new SimpleLabel();
+    protected SimpleLabel GameNameLabel = new();
+    protected SimpleLabel CategoryNameLabel = new();
+    protected SimpleLabel AttemptCountLabel = new();
 
     protected Font TitleFont { get; set; }
 
@@ -90,7 +90,7 @@ public class Title : IComponent
 
         MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
         VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
-        var showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
+        bool showGameIcon = state.Run.GameIcon != null && Settings.DisplayGameIcon;
         if (showGameIcon)
         {
             DrawGameIcon(g, state, height);
@@ -223,7 +223,7 @@ public class Title : IComponent
 
     private void DrawGameIcon(Graphics g, LiveSplitState state, float height)
     {
-        var icon = state.Run.GameIcon;
+        Image icon = state.Run.GameIcon;
 
         if (OldImage != icon)
         {
@@ -231,17 +231,17 @@ public class Title : IComponent
             OldImage = icon;
         }
 
-        var aspectRatio = (float)icon.Width / icon.Height;
-        var drawWidth = height - 4;
-        var drawHeight = height - 4;
+        float aspectRatio = (float)icon.Width / icon.Height;
+        float drawWidth = height - 4;
+        float drawHeight = height - 4;
         if (icon.Width > icon.Height)
         {
-            var ratio = icon.Height / (float)icon.Width;
+            float ratio = icon.Height / (float)icon.Width;
             drawHeight *= ratio;
         }
         else
         {
-            var ratio = icon.Width / (float)icon.Height;
+            float ratio = icon.Width / (float)icon.Height;
             drawWidth *= ratio;
         }
 
@@ -322,17 +322,17 @@ public class Title : IComponent
 
     private IEnumerable<string> getCategoryNameAbbreviations(string categoryName)
     {
-        var indexStart = categoryName.IndexOf('(');
-        var indexEnd = categoryName.IndexOf(')', indexStart + 1);
-        var afterParentheses = "";
+        int indexStart = categoryName.IndexOf('(');
+        int indexEnd = categoryName.IndexOf(')', indexStart + 1);
+        string afterParentheses = "";
         if (indexStart >= 0 && indexEnd >= 0)
         {
-            var inside = categoryName.Substring(indexStart + 1, indexEnd - indexStart - 1);
+            string inside = categoryName.Substring(indexStart + 1, indexEnd - indexStart - 1);
             afterParentheses = categoryName.Substring(indexEnd + 1).Trim();
             categoryName = categoryName.Substring(0, indexStart).Trim();
-            var splits = inside.Split(',');
+            string[] splits = inside.Split(',');
 
-            for (var i = splits.Length - 1; i > 0; --i)
+            for (int i = splits.Length - 1; i > 0; --i)
             {
                 yield return $"{categoryName} ({string.Join(",", splits.Take(i))}) {afterParentheses}".Trim();
             }
@@ -343,7 +343,7 @@ public class Title : IComponent
 
     public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
     {
-        var extendedCategoryName = state.Run.GetExtendedCategoryName(Settings.ShowRegion, Settings.ShowPlatform, Settings.ShowVariables);
+        string extendedCategoryName = state.Run.GetExtendedCategoryName(Settings.ShowRegion, Settings.ShowPlatform, Settings.ShowVariables);
 
         Cache.Restart();
         Cache["SingleLine"] = Settings.SingleLine;
@@ -356,12 +356,12 @@ public class Title : IComponent
         {
             if (Settings.SingleLine && Settings.ShowGameName && Settings.ShowCategoryName)
             {
-                var text = string.Format("{0} - {1}", state.Run.GameName, extendedCategoryName);
-                var gameAbbreviations = state.Run.GameName.GetAbbreviations();
-                var shortestGameName = gameAbbreviations.Last();
-                var categoryAbbreviations = getCategoryNameAbbreviations(extendedCategoryName);
-                var combinedAbbreviations1 = gameAbbreviations.Select(x => string.Format("{0} - {1}", x, extendedCategoryName));
-                var combinedAbbreviations2 = categoryAbbreviations.Select(x => string.Format("{0} - {1}", shortestGameName, x));
+                string text = string.Format("{0} - {1}", state.Run.GameName, extendedCategoryName);
+                IEnumerable<string> gameAbbreviations = state.Run.GameName.GetAbbreviations();
+                string shortestGameName = gameAbbreviations.Last();
+                IEnumerable<string> categoryAbbreviations = getCategoryNameAbbreviations(extendedCategoryName);
+                IEnumerable<string> combinedAbbreviations1 = gameAbbreviations.Select(x => string.Format("{0} - {1}", x, extendedCategoryName));
+                IEnumerable<string> combinedAbbreviations2 = categoryAbbreviations.Select(x => string.Format("{0} - {1}", shortestGameName, x));
                 var abbreviations = combinedAbbreviations1.Concat(combinedAbbreviations2).ToList();
                 GameNameLabel.Text = text;
                 GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? abbreviations : [];
@@ -401,7 +401,7 @@ public class Title : IComponent
             FinishedRunsInHistory = state.Run.AttemptHistory.Count(x => x.Time.RealTime != null);
         }
 
-        var totalFinishedRunsCount = FinishedRunsInHistory + (state.CurrentPhase == TimerPhase.Ended ? 1 : 0);
+        int totalFinishedRunsCount = FinishedRunsInHistory + (state.CurrentPhase == TimerPhase.Ended ? 1 : 0);
 
         if (Settings.ShowAttemptCount && Settings.ShowFinishedRunsCount)
         {
