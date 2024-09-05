@@ -1,9 +1,8 @@
-﻿namespace LiveSplit.UI.Components
+﻿namespace LiveSplit.UI.Components;
+
+public enum AlignmentType
 {
-    public enum AlignmentType
-    {
-        Auto = 0,
-        Left = 1,
-        Center = 2
-    }
+    Auto = 0,
+    Left = 1,
+    Center = 2
 }
