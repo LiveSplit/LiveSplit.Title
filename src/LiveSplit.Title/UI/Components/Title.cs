@@ -11,6 +11,7 @@ using LiveSplit.Model;
 
 namespace LiveSplit.UI.Components;
 
+[GlobalFontConsumer(GlobalFont.TextFont)]
 public class Title : IComponent
 {
     public TitleSettings Settings { get; set; }
@@ -79,14 +80,7 @@ public class Title : IComponent
     {
         DrawBackground(g, width, height);
 
-        if (Settings.OverrideTitleFont)
-        {
-            TitleFont = Settings.TitleFont;
-        }
-        else
-        {
-            TitleFont = state.LayoutSettings.TextFont;
-        }
+        TitleFont = Settings.OverrideTitleFont ? Settings.TitleFont : state.LayoutSettings.TextFont;
 
         MinimumHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
         VerticalHeight = g.MeasureString("A", TitleFont).Height * 1.7f;
@@ -318,6 +312,16 @@ public class Title : IComponent
     public void SetSettings(XmlNode settings)
     {
         Settings.SetSettings(settings);
+    }
+
+    public void MigrateFontOverrides(Options.FontOverrides overrides)
+    {
+        if (Settings.OverrideTitleFont && Settings.TitleFont != null)
+        {
+            overrides.OverrideTextFont = true;
+            overrides.TextFont = (Font)Settings.TitleFont.Clone();
+            Settings.OverrideTitleFont = false;
+        }
     }
 
     private IEnumerable<string> getCategoryNameAbbreviations(string categoryName)

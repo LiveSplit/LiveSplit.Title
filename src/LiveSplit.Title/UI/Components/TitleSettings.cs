@@ -23,10 +23,9 @@ public partial class TitleSettings : UserControl
     public Color TitleColor { get; set; }
     public bool OverrideTitleColor { get; set; }
 
-    public string TitleFontString => SettingsHelper.FormatFont(TitleFont);
-
-    public Font TitleFont { get; set; }
+    // Legacy font override — read from old configs, not written or exposed in UI
     public bool OverrideTitleFont { get; set; }
+    public Font TitleFont { get; set; }
 
     public Color BackgroundColor { get; set; }
     public Color BackgroundColor2 { get; set; }
@@ -45,8 +44,6 @@ public partial class TitleSettings : UserControl
         ShowAttemptCount = true;
         ShowFinishedRunsCount = false;
         DisplayGameIcon = true;
-        TitleFont = new Font("Segoe UI", 16, FontStyle.Regular, GraphicsUnit.Pixel);
-        OverrideTitleFont = false;
         TitleColor = Color.FromArgb(255, 255, 255, 255);
         OverrideTitleColor = false;
         SingleLine = false;
@@ -62,8 +59,6 @@ public partial class TitleSettings : UserControl
         chkCategoryName.DataBindings.Add("Checked", this, "ShowCategoryName", false, DataSourceUpdateMode.OnPropertyChanged);
         chkAttemptCount.DataBindings.Add("Checked", this, "ShowAttemptCount", false, DataSourceUpdateMode.OnPropertyChanged);
         chkFinishedRuns.DataBindings.Add("Checked", this, "ShowFinishedRunsCount", false, DataSourceUpdateMode.OnPropertyChanged);
-        chkFont.DataBindings.Add("Checked", this, "OverrideTitleFont", false, DataSourceUpdateMode.OnPropertyChanged);
-        lblFont.DataBindings.Add("Text", this, "TitleFontString", false, DataSourceUpdateMode.OnPropertyChanged);
         chkColor.DataBindings.Add("Checked", this, "OverrideTitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
         chkSingleLine.DataBindings.Add("Checked", this, "SingleLine", false, DataSourceUpdateMode.OnPropertyChanged);
         btnColor.DataBindings.Add("BackColor", this, "TitleColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -79,18 +74,12 @@ public partial class TitleSettings : UserControl
     private void TitleSettings_Load(object sender, EventArgs e)
     {
         chkColor_CheckedChanged(null, null);
-        chkFont_CheckedChanged(null, null);
         cmbTextAlignment.SelectedIndex = (int)TextAlignment;
     }
 
     private void chkColor_CheckedChanged(object sender, EventArgs e)
     {
         label3.Enabled = btnColor.Enabled = chkColor.Checked;
-    }
-
-    private void chkFont_CheckedChanged(object sender, EventArgs e)
-    {
-        label1.Enabled = lblFont.Enabled = btnFont.Enabled = chkFont.Checked;
     }
 
     private void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,11 +128,6 @@ public partial class TitleSettings : UserControl
                 OverrideTitleFont = !SettingsHelper.ParseBool(element["UseLayoutSettingsFont"]);
             }
         }
-        else
-        {
-            TitleFont = new Font("Segoe UI", 13, FontStyle.Regular, GraphicsUnit.Pixel);
-            OverrideTitleFont = false;
-        }
 
         ShowGameName = SettingsHelper.ParseBool(element["ShowGameName"], true);
         ShowCategoryName = SettingsHelper.ParseBool(element["ShowCategoryName"], true);
@@ -179,9 +163,7 @@ public partial class TitleSettings : UserControl
         SettingsHelper.CreateSetting(document, parent, "ShowCategoryName", ShowCategoryName) ^
         SettingsHelper.CreateSetting(document, parent, "ShowAttemptCount", ShowAttemptCount) ^
         SettingsHelper.CreateSetting(document, parent, "ShowFinishedRunsCount", ShowFinishedRunsCount) ^
-        SettingsHelper.CreateSetting(document, parent, "OverrideTitleFont", OverrideTitleFont) ^
         SettingsHelper.CreateSetting(document, parent, "OverrideTitleColor", OverrideTitleColor) ^
-        SettingsHelper.CreateSetting(document, parent, "TitleFont", TitleFont) ^
         SettingsHelper.CreateSetting(document, parent, "SingleLine", SingleLine) ^
         SettingsHelper.CreateSetting(document, parent, "TitleColor", TitleColor) ^
         SettingsHelper.CreateSetting(document, parent, "BackgroundColor", BackgroundColor) ^
@@ -192,14 +174,6 @@ public partial class TitleSettings : UserControl
         SettingsHelper.CreateSetting(document, parent, "ShowPlatform", ShowPlatform) ^
         SettingsHelper.CreateSetting(document, parent, "ShowVariables", ShowVariables) ^
         SettingsHelper.CreateSetting(document, parent, "TextAlignment", (int)TextAlignment);
-    }
-
-    private void btnFont_Click(object sender, EventArgs e)
-    {
-        CustomFontDialog.FontDialog dialog = SettingsHelper.GetFontDialog(TitleFont, 11, 26);
-        dialog.FontChanged += (s, ev) => TitleFont = ((CustomFontDialog.FontChangedEventArgs)ev).NewFont;
-        dialog.ShowDialog(this);
-        lblFont.Text = TitleFontString;
     }
 
     private void ColorButtonClick(object sender, EventArgs e)
