@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveSplit.Model;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -6,8 +7,6 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
-
-using LiveSplit.Model;
 
 namespace LiveSplit.UI.Components;
 
@@ -105,14 +104,10 @@ public class Title : IComponent
             && Settings.BackgroundColor2.A > 0))
         {
             var gradientBrush = new LinearGradientBrush(
-                        new PointF(0, 0),
-                        Settings.BackgroundGradient == GradientType.Horizontal
-                        ? new PointF(width, 0)
-                        : new PointF(0, height),
-                        Settings.BackgroundColor,
-                        Settings.BackgroundGradient == GradientType.Plain
-                        ? Settings.BackgroundColor
-                        : Settings.BackgroundColor2);
+                new PointF(0, 0),
+                Settings.BackgroundGradient == GradientType.Horizontal ? new PointF(width, 0) : new PointF(0, height),
+                Settings.BackgroundColor,
+                Settings.BackgroundGradient == GradientType.Plain ? Settings.BackgroundColor : Settings.BackgroundColor2);
             g.FillRectangle(gradientBrush, 0, 0, width, height);
         }
     }
@@ -258,7 +253,7 @@ public class Title : IComponent
         float position, width;
         if (startPadding + stringWidth + endPadding > totalWidth)
         {
-            // We cant fit no matter what we do, so start the string after the start padding 
+            // We cant fit no matter what we do, so start the string after the start padding
             position = startPadding;
         }
         else
@@ -366,7 +361,7 @@ public class Title : IComponent
                 IEnumerable<string> categoryAbbreviations = getCategoryNameAbbreviations(extendedCategoryName);
                 IEnumerable<string> combinedAbbreviations1 = gameAbbreviations.Select(x => string.Format("{0} - {1}", x, extendedCategoryName));
                 IEnumerable<string> combinedAbbreviations2 = categoryAbbreviations.Select(x => string.Format("{0} - {1}", shortestGameName, x));
-                var abbreviations = combinedAbbreviations1.Concat(combinedAbbreviations2).ToList();
+                List<string> abbreviations = [.. combinedAbbreviations1, .. combinedAbbreviations2];
                 GameNameLabel.Text = text;
                 GameNameLabel.AlternateText = mode == LayoutMode.Vertical ? abbreviations : [];
                 CategoryNameLabel.Text = "";
@@ -424,14 +419,9 @@ public class Title : IComponent
         Cache["GameIcon"] = state.Run.GameIcon;
         if (Cache.HasChanged)
         {
-            if (state.Run.GameIcon == null)
-            {
-                FrameCount = 0;
-            }
-            else
-            {
-                FrameCount = state.Run.GameIcon.GetFrameCount(new FrameDimension(state.Run.GameIcon.FrameDimensionsList[0]));
-            }
+            FrameCount = state.Run.GameIcon == null
+                ? 0
+                : state.Run.GameIcon.GetFrameCount(new FrameDimension(state.Run.GameIcon.FrameDimensionsList[0]));
         }
 
         Cache["GameNameLabel"] = GameNameLabel.Text;

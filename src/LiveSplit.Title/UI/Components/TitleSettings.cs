@@ -107,21 +107,11 @@ public partial class TitleSettings : UserControl
             if (version >= new Version(1, 3))
             {
                 OverrideTitleFont = SettingsHelper.ParseBool(element["OverrideTitleFont"]);
-                if (version >= new Version(1, 7, 3))
-                {
-                    TextAlignment = (AlignmentType)SettingsHelper.ParseInt(element["TextAlignment"], 0);
-                }
-                else
-                {
-                    if (DisplayGameIcon && SettingsHelper.ParseBool(element["CenterTitle"], false))
-                    {
-                        TextAlignment = AlignmentType.Center;
-                    }
-                    else
-                    {
-                        TextAlignment = AlignmentType.Auto;
-                    }
-                }
+                TextAlignment = version >= new Version(1, 7, 3)
+                    ? (AlignmentType)SettingsHelper.ParseInt(element["TextAlignment"], 0)
+                    : DisplayGameIcon && SettingsHelper.ParseBool(element["CenterTitle"], false)
+                        ? AlignmentType.Center
+                        : AlignmentType.Auto;
             }
             else
             {
